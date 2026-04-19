@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #f7f2eb;
+  --surface: #fffaf4;
+  --ink: #2d221b;
+  --muted: #6d5f56;
+  --line: rgba(45, 34, 27, 0.12);
+  --accent: #b55d3d;
+  --accent-soft: #e9c6b6;
+  --sage: #7c8b6a;
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(255,255,255,0.65), transparent 38%),
+    linear-gradient(180deg, #fbf8f3 0%, #f7f2eb 100%);
+}
+
+.container-shell {
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+
+.card {
+  @apply rounded-[28px] border border-black/5 bg-white/80 backdrop-blur-sm;
+  box-shadow: 0 20px 60px rgba(72, 48, 36, 0.08);
+}
