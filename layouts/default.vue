@@ -18,6 +18,9 @@
           <NuxtLink to="/drops" class="text-sm text-stone-700 transition hover:text-stone-900">
             Drops
           </NuxtLink>
+          <NuxtLink to="/contact" class="text-sm text-stone-700 transition hover:text-stone-900">
+            Kontakt
+          </NuxtLink>
           <SiteHeaderCart />
         </div>
       </div>

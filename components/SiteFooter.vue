@@ -1,7 +1,12 @@
 <script setup lang="ts">
 const { data: shopData } = await useFetch('/api/shop-info')
 
-const shop = computed(() => shopData.value?.shop || {})
+const shop = computed<{
+  name?: string
+  description?: string
+  email?: string
+  phone?: string
+}>(() => (shopData.value?.shop as any) || {})
 
 const currentYear = new Date().getFullYear()
 
@@ -89,6 +94,11 @@ const policyLinks = computed(() => [
             <li>
               <NuxtLink to="/about" class="text-sm text-stone-600 hover:text-stone-900 transition">
                 Om os
+              </NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/contact" class="text-sm text-stone-600 hover:text-stone-900 transition">
+                Kontakt
               </NuxtLink>
             </li>
           </ul>

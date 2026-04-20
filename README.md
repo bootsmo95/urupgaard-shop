@@ -50,6 +50,7 @@ Repoet er gjort klar til import i Netlify.
 SHOPIFY_STORE_DOMAIN=urupgaard-butik.myshopify.com
 SHOPIFY_STOREFRONT_TOKEN=your-public-storefront-token
 NUXT_PUBLIC_SITE_URL=https://your-netlify-site.netlify.app
+CONTACT_NOTIFICATION_WEBHOOK_URL=https://your-webhook.example.com/contact
 ```
 
 ### Import flow

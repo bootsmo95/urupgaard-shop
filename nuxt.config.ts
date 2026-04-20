@@ -9,6 +9,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     shopifyStorefrontToken: process.env.SHOPIFY_STOREFRONT_TOKEN,
     shopifyStoreDomain: process.env.SHOPIFY_STORE_DOMAIN,
+    contactNotificationWebhookUrl: process.env.CONTACT_NOTIFICATION_WEBHOOK_URL,
     public: {
       siteName: 'Urupgaard',
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000'
