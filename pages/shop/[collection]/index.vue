@@ -60,7 +60,7 @@ watch(data, (newData) => {
         <p v-if="collection.description" class="max-w-2xl text-lg leading-8 text-stone-600">{{ collection.description }}</p>
       </div>
 
-      <div v-if="products.length > 0" class="grid gap-5 md:grid-cols-2">
+      <div v-if="products.length > 0" :class="['grid gap-5', products.length === 1 ? 'grid-cols-1' : 'md:grid-cols-2']">
         <NuxtLink
           v-for="product in products"
           :key="product.id"
