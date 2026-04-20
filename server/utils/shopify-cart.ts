@@ -23,6 +23,23 @@ function mapCart(cart: any): CartSummary {
   }
 }
 
+function throwOnUserErrors(source: string, payload: any) {
+  const userErrors = payload?.userErrors ?? []
+
+  if (userErrors.length) {
+    const message = userErrors
+      .map((error: any) => `${error.field?.join('.') || source}: ${error.message}`)
+      .join(' | ')
+
+    throw createError({
+      statusCode: 400,
+      statusMessage: `${source} failed`,
+      data: { source, userErrors },
+      message
+    })
+  }
+}
+
 export async function createShopifyCart(lines: CartLineInput[] = []) {
   const client = useShopifyClient()
   if (!client) return null
@@ -53,6 +70,10 @@ export async function createShopifyCart(lines: CartLineInput[] = []) {
             }
           }
         }
+        userErrors {
+          field
+          message
+        }
       }
     }
   `
@@ -61,7 +82,23 @@ export async function createShopifyCart(lines: CartLineInput[] = []) {
     variables: { lines }
   })
 
-  if (errors?.length || !data?.cartCreate?.cart) return null
+  if (errors?.length) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Shopify cartCreate request failed',
+      data: { errors }
+    })
+  }
+
+  throwOnUserErrors('cartCreate', data?.cartCreate)
+
+  if (!data?.cartCreate?.cart) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Shopify cartCreate returned no cart'
+    })
+  }
+
   return mapCart(data.cartCreate.cart)
 }
 
@@ -95,6 +132,10 @@ export async function addShopifyCartLines(cartId: string, lines: CartLineInput[]
             }
           }
         }
+        userErrors {
+          field
+          message
+        }
       }
     }
   `
@@ -103,7 +144,23 @@ export async function addShopifyCartLines(cartId: string, lines: CartLineInput[]
     variables: { cartId, lines }
   })
 
-  if (errors?.length || !data?.cartLinesAdd?.cart) return null
+  if (errors?.length) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Shopify cartLinesAdd request failed',
+      data: { errors }
+    })
+  }
+
+  throwOnUserErrors('cartLinesAdd', data?.cartLinesAdd)
+
+  if (!data?.cartLinesAdd?.cart) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Shopify cartLinesAdd returned no cart'
+    })
+  }
+
   return mapCart(data.cartLinesAdd.cart)
 }
 
@@ -143,6 +200,14 @@ export async function getShopifyCart(cartId: string) {
     variables: { cartId }
   })
 
-  if (errors?.length || !data?.cart) return null
+  if (errors?.length) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Shopify cart query failed',
+      data: { errors }
+    })
+  }
+
+  if (!data?.cart) return null
   return mapCart(data.cart)
 }
