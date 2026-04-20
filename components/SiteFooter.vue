@@ -26,13 +26,17 @@ const policyLinks = computed(() => [
 <template>
   <footer class="border-t border-stone-200 bg-stone-50">
     <div class="container-shell py-16 lg:py-20">
+      <div class="mb-12 max-w-2xl">
+        <NewsletterSignup />
+      </div>
+
       <!-- Main Footer Grid -->
-      <div class="grid gap-12 md:grid-cols-3 lg:grid-cols-4 mb-12">
+      <div class="mb-12 grid gap-12 md:grid-cols-2 lg:grid-cols-4">
         <!-- Brand Column -->
         <div>
           <h3 class="font-semibold text-stone-900 mb-4">{{ contactInfo.name }}</h3>
-          <p class="text-sm text-stone-600 mb-6">
-            {{ shop.description || 'Handlavede keramik og drikkeware af høj kvalitet' }}
+          <p class="mb-6 text-sm text-stone-600">
+            {{ shop.description || 'Handlavet keramik og drikkeware af høj kvalitet' }}
           </p>
           <div class="space-y-2 text-sm text-stone-600">
             <p v-if="contactInfo.email">
