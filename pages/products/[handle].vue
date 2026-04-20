@@ -2,11 +2,26 @@
 const route = useRoute()
 const handle = computed(() => String(route.params.handle || 'produkt'))
 const { data } = await useFetch('/api/products')
+const { addToCart, loading } = useCart()
 
 const product = computed(() => {
   const products = data.value?.products ?? []
   return products.find((entry: any) => entry.handle === handle.value) ?? products[0]
 })
+
+async function onAddToCart() {
+  if (!product.value?.variantId) return
+
+  await addToCart({
+    merchandiseId: product.value.variantId,
+    quantity: 1,
+    title: product.value.title,
+    price: product.value.price,
+    image: product.value.image
+  })
+
+  await navigateTo('/cart')
+}
 </script>
 
 <template>
@@ -24,10 +39,16 @@ const product = computed(() => {
         <p class="mt-6 text-lg leading-8 text-stone-600">{{ product.description }}</p>
         <div class="mt-8 flex items-end justify-between gap-4">
           <span class="text-3xl text-stone-900">{{ product.price }}</span>
-          <button class="rounded-full bg-stone-900 px-6 py-3 text-sm text-white">Læg i kurv</button>
+          <button
+            class="rounded-full bg-stone-900 px-6 py-3 text-sm text-white disabled:opacity-50"
+            :disabled="loading || !product.variantId"
+            @click="onAddToCart"
+          >
+            {{ loading ? 'Lægger i kurv...' : 'Læg i kurv' }}
+          </button>
         </div>
         <div class="mt-8 rounded-[24px] bg-stone-50 p-5 text-sm leading-7 text-stone-600">
-          Placeholder til Shopify cart og variant-logik. Checkout beholdes i Shopify for lav kompleksitet.
+          V1 bruger Shopify cart og redirecter checkout til Shopify. Det holder setup let og driftssikkert.
         </div>
       </div>
     </div>

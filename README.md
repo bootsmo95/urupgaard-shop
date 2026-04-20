@@ -13,6 +13,8 @@ Nuxt 4 starter til en simpel Shopify-baseret gårdbutik med fokus på keramik, s
 - Forside
 - Collection route
 - Product detail route
+- Kurv
+- Checkout redirect til Shopify
 - Drops-side med countdown
 - Shopify API wrapper med fallback data
 - Klar til custom frontend videreudvikling
@@ -47,6 +49,6 @@ Publish directory:
 
 ## Næste anbefalede step
 - Hook rigtige collections og produktdetaljer op mod Shopify
-- Tilføj cart state
-- Tilføj Shopify checkout redirect
+- Tilføj remove/update quantity i kurven
 - Flyt drops til CMS eller Shopify metafields
+- Tilføj e-mail capture før drops

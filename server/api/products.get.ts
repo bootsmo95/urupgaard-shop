@@ -6,24 +6,27 @@ const sampleProducts: ProductCard[] = [
     handle: 'rustik-kop-sand',
     title: 'Rustik kop, sand',
     description: 'Hånddrejet kop med blød glasur og varm, naturlig tone.',
-    price: '249 kr.',
-    image: 'https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?auto=format&fit=crop&w=900&q=80'
+    price: '249 DKK',
+    image: 'https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?auto=format&fit=crop&w=900&q=80',
+    variantId: 'gid://shopify/ProductVariant/fallback-rustik-kop-sand'
   },
   {
     id: 'sample-2',
     handle: 'middagstallerken-ler',
     title: 'Middagstallerken, ler',
     description: 'Stor tallerken med rolig overflade og tydeligt håndværk.',
-    price: '399 kr.',
-    image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=900&q=80'
+    price: '399 DKK',
+    image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=900&q=80',
+    variantId: 'gid://shopify/ProductVariant/fallback-middagstallerken-ler'
   },
   {
     id: 'sample-3',
     handle: 'serveringsfad-gra',
     title: 'Serveringsfad, grå',
     description: 'Et fad til hverdagsbordet og de særlige anledninger.',
-    price: '649 kr.',
-    image: 'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80'
+    price: '649 DKK',
+    image: 'https://images.unsplash.com/photo-1517705008128-361805f42e86?auto=format&fit=crop&w=900&q=80',
+    variantId: 'gid://shopify/ProductVariant/fallback-serveringsfad-gra'
   }
 ]
 
@@ -47,6 +50,11 @@ export default defineEventHandler(async () => {
           description
           featuredImage {
             url
+          }
+          variants(first: 1) {
+            nodes {
+              id
+            }
           }
           priceRange {
             minVariantPrice {
@@ -75,7 +83,8 @@ export default defineEventHandler(async () => {
     title: product.title,
     description: product.description,
     image: product.featuredImage?.url,
-    price: `${Number(product.priceRange.minVariantPrice.amount).toFixed(0)} ${product.priceRange.minVariantPrice.currencyCode}`
+    price: `${Number(product.priceRange.minVariantPrice.amount).toFixed(0)} ${product.priceRange.minVariantPrice.currencyCode}`,
+    variantId: product.variants?.nodes?.[0]?.id
   }))
 
   return {
