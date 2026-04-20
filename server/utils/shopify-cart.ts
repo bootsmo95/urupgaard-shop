@@ -1,11 +1,15 @@
 import type { CartLineInput, CartSummary } from '~/types/shop'
 
+function money(amount?: string | number, currencyCode?: string) {
+  return `${Number(amount ?? 0).toFixed(0)} ${currencyCode ?? 'DKK'}`
+}
+
 function mapCart(cart: any): CartSummary {
   const lines = (cart?.lines?.nodes ?? []).map((line: any) => ({
     id: line.id,
     quantity: line.quantity,
     title: line.merchandise?.product?.title ?? 'Produkt',
-    price: `${Number(line.cost?.totalAmount?.amount ?? 0).toFixed(0)} ${line.cost?.totalAmount?.currencyCode ?? 'DKK'}`,
+    price: money(line.merchandise?.price?.amount, line.merchandise?.price?.currencyCode),
     image: line.merchandise?.product?.featuredImage?.url,
     merchandiseId: line.merchandise?.id
   }))
@@ -14,7 +18,7 @@ function mapCart(cart: any): CartSummary {
     id: cart.id,
     checkoutUrl: cart.checkoutUrl,
     totalQuantity: cart.totalQuantity,
-    totalAmount: `${Number(cart.cost?.totalAmount?.amount ?? 0).toFixed(0)} ${cart.cost?.totalAmount?.currencyCode ?? 'DKK'}`,
+    totalAmount: money(cart.cost?.totalAmount?.amount, cart.cost?.totalAmount?.currencyCode),
     lines
   }
 }
@@ -39,6 +43,7 @@ export async function createShopifyCart(lines: CartLineInput[] = []) {
               merchandise {
                 ... on ProductVariant {
                   id
+                  price { amount currencyCode }
                   product {
                     title
                     featuredImage { url }
@@ -80,6 +85,7 @@ export async function addShopifyCartLines(cartId: string, lines: CartLineInput[]
               merchandise {
                 ... on ProductVariant {
                   id
+                  price { amount currencyCode }
                   product {
                     title
                     featuredImage { url }
@@ -120,6 +126,7 @@ export async function getShopifyCart(cartId: string) {
             merchandise {
               ... on ProductVariant {
                 id
+                price { amount currencyCode }
                 product {
                   title
                   featuredImage { url }
