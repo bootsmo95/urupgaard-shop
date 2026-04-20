@@ -29,7 +29,7 @@ export function useCart() {
   }) {
     loading.value = true
     try {
-      cart.value = await $fetch<CartSummary>('/api/cart/add', {
+      cart.value = await $fetch<CartSummary>('/api/cart', {
         method: 'POST',
         body: payload
       })
