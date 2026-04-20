@@ -11,6 +11,16 @@ function updateFallbackTotals(cart: CartSummary) {
   return cart
 }
 
+function withDebug(event: any, payload: any) {
+  const debug = getQuery(event).debug === '1'
+  if (!debug) {
+    if (payload?.cart) return payload.cart
+    return payload
+  }
+
+  return payload
+}
+
 export default defineEventHandler(async (event) => {
   const sessionId = getCookie(event, 'ug_session') || crypto.randomUUID()
   setCookie(event, 'ug_session', sessionId, { path: '/', httpOnly: false, sameSite: 'lax' })
@@ -28,13 +38,13 @@ export default defineEventHandler(async (event) => {
 
     if (existingCartId) {
       const updated = await addShopifyCartLines(existingCartId, lines)
-      if (updated) return updated
+      if (updated) return withDebug(event, updated)
     }
 
     const created = await createShopifyCart(lines)
     if (created) {
-      setCookie(event, 'ug_cart_id', created.id, { path: '/', httpOnly: false, sameSite: 'lax' })
-      return created
+      setCookie(event, 'ug_cart_id', created.cart.id, { path: '/', httpOnly: false, sameSite: 'lax' })
+      return withDebug(event, created)
     }
 
     const fallback = getSessionCart(sessionId)
@@ -77,10 +87,10 @@ export default defineEventHandler(async (event) => {
     if (cartId) {
       if (quantity === 0) {
         const updated = await removeShopifyCartLines(cartId, [body.lineId])
-        if (updated) return updated
+        if (updated) return withDebug(event, updated)
       } else {
         const updated = await updateShopifyCartLines(cartId, [{ id: body.lineId, quantity }])
-        if (updated) return updated
+        if (updated) return withDebug(event, updated)
       }
     }
 
@@ -104,7 +114,7 @@ export default defineEventHandler(async (event) => {
 
     if (cartId) {
       const updated = await removeShopifyCartLines(cartId, [body.lineId])
-      if (updated) return updated
+      if (updated) return withDebug(event, updated)
     }
 
     const fallback = getSessionCart(sessionId)
@@ -117,7 +127,7 @@ export default defineEventHandler(async (event) => {
 
   if (cartId) {
     const shopifyCart = await getShopifyCart(cartId)
-    if (shopifyCart) return shopifyCart
+    if (shopifyCart) return withDebug(event, shopifyCart)
   }
 
   const fallbackCart = getSessionCart(sessionId)

@@ -23,8 +23,12 @@ function mapCart(cart: any): CartSummary {
   }
 }
 
+function getUserErrors(payload: any) {
+  return payload?.userErrors ?? []
+}
+
 function throwOnUserErrors(source: string, payload: any) {
-  const userErrors = payload?.userErrors ?? []
+  const userErrors = getUserErrors(payload)
 
   if (userErrors.length) {
     const message = userErrors
@@ -60,9 +64,14 @@ export async function createShopifyCart(lines: CartLineInput[] = []) {
               merchandise {
                 ... on ProductVariant {
                   id
+                  title
+                  availableForSale
+                  quantityAvailable
                   price { amount currencyCode }
                   product {
+                    id
                     title
+                    handle
                     featuredImage { url }
                   }
                 }
@@ -99,7 +108,15 @@ export async function createShopifyCart(lines: CartLineInput[] = []) {
     })
   }
 
-  return mapCart(data.cartCreate.cart)
+  return {
+    cart: mapCart(data.cartCreate.cart),
+    debug: {
+      operation: 'cartCreate',
+      input: { lines },
+      userErrors: getUserErrors(data?.cartCreate),
+      rawCart: data?.cartCreate?.cart
+    }
+  }
 }
 
 export async function addShopifyCartLines(cartId: string, lines: CartLineInput[]) {
@@ -122,9 +139,14 @@ export async function addShopifyCartLines(cartId: string, lines: CartLineInput[]
               merchandise {
                 ... on ProductVariant {
                   id
+                  title
+                  availableForSale
+                  quantityAvailable
                   price { amount currencyCode }
                   product {
+                    id
                     title
+                    handle
                     featuredImage { url }
                   }
                 }
@@ -161,7 +183,15 @@ export async function addShopifyCartLines(cartId: string, lines: CartLineInput[]
     })
   }
 
-  return mapCart(data.cartLinesAdd.cart)
+  return {
+    cart: mapCart(data.cartLinesAdd.cart),
+    debug: {
+      operation: 'cartLinesAdd',
+      input: { cartId, lines },
+      userErrors: getUserErrors(data?.cartLinesAdd),
+      rawCart: data?.cartLinesAdd?.cart
+    }
+  }
 }
 
 export async function updateShopifyCartLines(cartId: string, lines: { id: string; quantity: number }[]) {
@@ -184,9 +214,14 @@ export async function updateShopifyCartLines(cartId: string, lines: { id: string
               merchandise {
                 ... on ProductVariant {
                   id
+                  title
+                  availableForSale
+                  quantityAvailable
                   price { amount currencyCode }
                   product {
+                    id
                     title
+                    handle
                     featuredImage { url }
                   }
                 }
@@ -223,7 +258,15 @@ export async function updateShopifyCartLines(cartId: string, lines: { id: string
     })
   }
 
-  return mapCart(data.cartLinesUpdate.cart)
+  return {
+    cart: mapCart(data.cartLinesUpdate.cart),
+    debug: {
+      operation: 'cartLinesUpdate',
+      input: { cartId, lines },
+      userErrors: getUserErrors(data?.cartLinesUpdate),
+      rawCart: data?.cartLinesUpdate?.cart
+    }
+  }
 }
 
 export async function removeShopifyCartLines(cartId: string, lineIds: string[]) {
@@ -246,9 +289,14 @@ export async function removeShopifyCartLines(cartId: string, lineIds: string[]) 
               merchandise {
                 ... on ProductVariant {
                   id
+                  title
+                  availableForSale
+                  quantityAvailable
                   price { amount currencyCode }
                   product {
+                    id
                     title
+                    handle
                     featuredImage { url }
                   }
                 }
@@ -285,7 +333,15 @@ export async function removeShopifyCartLines(cartId: string, lineIds: string[]) 
     })
   }
 
-  return mapCart(data.cartLinesRemove.cart)
+  return {
+    cart: mapCart(data.cartLinesRemove.cart),
+    debug: {
+      operation: 'cartLinesRemove',
+      input: { cartId, lineIds },
+      userErrors: getUserErrors(data?.cartLinesRemove),
+      rawCart: data?.cartLinesRemove?.cart
+    }
+  }
 }
 
 export async function getShopifyCart(cartId: string) {
@@ -307,9 +363,14 @@ export async function getShopifyCart(cartId: string) {
             merchandise {
               ... on ProductVariant {
                 id
+                title
+                availableForSale
+                quantityAvailable
                 price { amount currencyCode }
                 product {
+                  id
                   title
+                  handle
                   featuredImage { url }
                 }
               }
@@ -333,5 +394,12 @@ export async function getShopifyCart(cartId: string) {
   }
 
   if (!data?.cart) return null
-  return mapCart(data.cart)
+  return {
+    cart: mapCart(data.cart),
+    debug: {
+      operation: 'getCart',
+      input: { cartId },
+      rawCart: data.cart
+    }
+  }
 }
