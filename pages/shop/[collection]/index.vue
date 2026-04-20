@@ -10,7 +10,7 @@ const collection = computed(() => {
 })
 
 const products = computed(() => {
-  const prods = collection.value?.products ?? []
+  const prods = data.value?.products ?? []
   console.log('Products computed:', prods, 'length:', prods.length)
   return prods
 })
