@@ -37,15 +37,28 @@ Nuxt 4 starter til en simpel Shopify-baseret gårdbutik med fokus på keramik, s
    ```
 
 ## Netlify
-Build command:
-```bash
-npm run build
+Repoet er gjort klar til import i Netlify.
+
+### Import settings
+- Build command: `npm run build`
+- Publish directory: `.output/public`
+- Node version: `22`
+
+### Environment variables
+```env
+SHOPIFY_STORE_DOMAIN=urupgaard-butik.myshopify.com
+SHOPIFY_STOREFRONT_TOKEN=your-public-storefront-token
+NUXT_PUBLIC_SITE_URL=https://your-netlify-site.netlify.app
 ```
 
-Publish directory:
-```bash
-.output/public
-```
+### Import flow
+1. Opret nyt site i Netlify fra GitHub repo
+2. Netlify læser `netlify.toml`
+3. Tilføj environment variables
+4. Deploy
+
+### Efter første deploy
+Sæt `NUXT_PUBLIC_SITE_URL` til det rigtige Netlify domæne eller custom domæne og redeploy.
 
 ## Næste anbefalede step
 - Hook rigtige collections og produktdetaljer op mod Shopify
