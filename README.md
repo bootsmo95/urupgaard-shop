@@ -43,6 +43,7 @@ Repoet er gjort klar til import i Netlify.
 - Build command: `npm run build`
 - Publish directory: `.output/public`
 - Node version: `22`
+- Ingen Netlify Next.js plugin, det her er Nuxt/Nitro
 
 ### Environment variables
 ```env
@@ -56,6 +57,7 @@ NUXT_PUBLIC_SITE_URL=https://your-netlify-site.netlify.app
 2. Netlify læser `netlify.toml`
 3. Tilføj environment variables
 4. Deploy
+5. Hvis Netlify har cached gammel config, så tryk redeploy efter seneste push
 
 ### Efter første deploy
 Sæt `NUXT_PUBLIC_SITE_URL` til det rigtige Netlify domæne eller custom domæne og redeploy.
