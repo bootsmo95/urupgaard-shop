@@ -7,10 +7,7 @@ export default defineEventHandler(async (event) => {
   }
 
   if (!client) {
-    return {
-      source: 'fallback',
-      product: null
-    }
+    throw createError({ statusCode: 503, statusMessage: 'Shopify client not available' })
   }
 
   const query = `#graphql
@@ -44,11 +41,7 @@ export default defineEventHandler(async (event) => {
   })
 
   if (errors?.length || !data?.product) {
-    return {
-      source: 'fallback',
-      errors,
-      product: null
-    }
+    throw createError({ statusCode: 404, statusMessage: 'Product not found' })
   }
 
   const firstVariant = data.product.variants?.nodes?.[0]

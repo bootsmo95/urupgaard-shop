@@ -7,16 +7,7 @@ export default defineEventHandler(async (event) => {
   }
 
   if (!client) {
-    return {
-      source: 'fallback',
-      collection: {
-        id: 'fallback-keramik',
-        handle,
-        title: handle,
-        description: 'Midlertidig fallback collection.'
-      },
-      products: []
-    }
+    throw createError({ statusCode: 503, statusMessage: 'Shopify client not available' })
   }
 
   const query = `#graphql
@@ -55,17 +46,7 @@ export default defineEventHandler(async (event) => {
   })
 
   if (errors?.length || !data?.collection) {
-    return {
-      source: 'fallback',
-      errors,
-      collection: {
-        id: 'fallback-keramik',
-        handle,
-        title: handle,
-        description: 'Collection ikke fundet endnu i Shopify.'
-      },
-      products: []
-    }
+    throw createError({ statusCode: 404, statusMessage: 'Collection not found' })
   }
 
   return {
