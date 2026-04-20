@@ -1,16 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --bg: #f7f2eb;
-  --surface: #fffaf4;
-  --ink: #2d221b;
-  --muted: #6d5f56;
-  --line: rgba(45, 34, 27, 0.12);
-  --accent: #b55d3d;
-  --accent-soft: #e9c6b6;
-  --sage: #7c8b6a;
+  --bg: #f3efe8;
+  --surface: rgba(255, 252, 247, 0.82);
+  --surface-strong: #fffaf4;
+  --ink: #241b16;
+  --muted: #6e6257;
+  --line: rgba(36, 27, 22, 0.08);
+  --accent: #a86245;
+  --accent-soft: #ead4c7;
+  --forest: #5b6a56;
+  --shadow: 0 30px 90px rgba(54, 34, 24, 0.08);
 }
 
 html {
@@ -19,18 +23,73 @@ html {
 }
 
 body {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: 'Manrope', sans-serif;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top, rgba(255,255,255,0.65), transparent 38%),
-    linear-gradient(180deg, #fbf8f3 0%, #f7f2eb 100%);
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 30%),
+    radial-gradient(circle at right 20%, rgba(234, 212, 199, 0.45), transparent 28%),
+    linear-gradient(180deg, #f7f3ed 0%, #f2ece4 100%);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: -0.02em;
 }
 
 .container-shell {
-  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  @apply mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-10;
 }
 
 .card {
-  @apply rounded-[28px] border border-black/5 bg-white/80 backdrop-blur-sm;
-  box-shadow: 0 20px 60px rgba(72, 48, 36, 0.08);
+  @apply rounded-[32px] border backdrop-blur-md;
+  border-color: var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.soft-panel {
+  @apply rounded-[28px] border;
+  border-color: rgba(36, 27, 22, 0.06);
+  background: rgba(255, 251, 245, 0.88);
+}
+
+.pill-button {
+  @apply inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition duration-200;
+}
+
+.pill-button-primary {
+  @apply pill-button text-white;
+  background: var(--ink);
+}
+
+.pill-button-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(36, 27, 22, 0.18);
+}
+
+.pill-button-secondary {
+  @apply pill-button border text-stone-800;
+  border-color: rgba(36, 27, 22, 0.12);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.editorial-kicker {
+  @apply text-[11px] font-semibold uppercase tracking-[0.38em];
+  color: var(--muted);
+}
+
+.product-card {
+  @apply overflow-hidden rounded-[30px] border transition duration-300;
+  border-color: rgba(36, 27, 22, 0.08);
+  background: rgba(255, 251, 246, 0.92);
+  box-shadow: 0 24px 60px rgba(45, 27, 16, 0.06);
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 70px rgba(45, 27, 16, 0.12);
+}
+
+.image-shell {
+  background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(238,229,218,0.72));
 }
