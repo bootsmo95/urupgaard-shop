@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { saveContactSubmission } from '../../utils/contact'
+import { saveContactSubmission } from '../utils/contact'
 
 const contactSchema = z.object({
   name: z.string().trim().min(2, 'Skriv mindst 2 tegn i navnefeltet.').max(80, 'Navnet er for langt.'),
@@ -33,6 +33,7 @@ async function sendNotification(payload: { name: string, email: string, message:
 }
 
 export default defineEventHandler(async (event) => {
+  assertMethod(event, ['POST'])
   const body = await readBody(event)
   const parsed = contactSchema.safeParse(body)
 

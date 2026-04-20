@@ -1,5 +1,6 @@
 export default defineEventHandler(async (event) => {
-  const handle = getRouterParam(event, 'handle')
+  assertMethod(event, ['GET'])
+  const handle = String(getQuery(event).handle ?? '') || getRouterParam(event, 'handle')
   const client = useShopifyClient()
   const limit = Math.min(Math.max(Number(getQuery(event).limit ?? 5) || 5, 4), 6)
 

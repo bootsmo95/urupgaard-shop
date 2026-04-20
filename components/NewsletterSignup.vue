@@ -21,7 +21,7 @@ async function handleSubmit() {
   loading.value = true
 
   try {
-    const response = await $fetch<{ message: string }>('/api/newsletter/subscribe', {
+    const response = await $fetch<{ message: string }>('/api/newsletter', {
       method: 'POST',
       body: { email: normalizedEmail }
     })

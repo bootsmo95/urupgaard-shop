@@ -1,17 +1,33 @@
 import { promises as fs } from 'node:fs'
 import { dirname, join } from 'node:path'
+import { randomUUID } from 'node:crypto'
 
-export type ProductReview = {
+export type StoredReview = {
+  id: string
+  handle: string
   name: string
-  email: string
+  email?: string
   rating: number
   comment: string
   createdAt: string
 }
 
-type ReviewStore = Record<string, ProductReview[]>
+export type ReviewInput = {
+  handle: string
+  name: string
+  email?: string
+  rating: number
+  comment: string
+}
 
-const reviewsFile = join(process.cwd(), 'data', 'reviews.json')
+type ReviewStore = {
+  reviews: StoredReview[]
+}
+
+const reviewsFile = join(process.cwd(), 'server', 'data', 'reviews.json')
+const rateLimitWindowMs = 15 * 60 * 1000
+const rateLimitMaxEntries = 3
+const rateLimitStore = new Map<string, number[]>()
 
 async function ensureReviewsFile() {
   await fs.mkdir(dirname(reviewsFile), { recursive: true })
@@ -20,42 +36,92 @@ async function ensureReviewsFile() {
     await fs.access(reviewsFile)
   }
   catch {
-    await fs.writeFile(reviewsFile, '{}\n', 'utf8')
+    await fs.writeFile(reviewsFile, '{\n  "reviews": []\n}\n', 'utf8')
   }
 }
 
-export async function readReviewsStore(): Promise<ReviewStore> {
+async function readReviewsStore(): Promise<ReviewStore> {
   await ensureReviewsFile()
 
-  const raw = await fs.readFile(reviewsFile, 'utf8')
-
   try {
+    const raw = await fs.readFile(reviewsFile, 'utf8')
     const parsed = JSON.parse(raw || '{}')
-    return typeof parsed === 'object' && parsed ? parsed : {}
+
+    if (Array.isArray(parsed)) {
+      return { reviews: parsed }
+    }
+
+    if (Array.isArray(parsed?.reviews)) {
+      return { reviews: parsed.reviews }
+    }
   }
   catch {
-    return {}
+    // ignore malformed file and fall back to empty store
   }
+
+  return { reviews: [] }
 }
 
-export async function writeReviewsStore(store: ReviewStore) {
+async function writeReviewsStore(store: ReviewStore) {
   await ensureReviewsFile()
   await fs.writeFile(reviewsFile, `${JSON.stringify(store, null, 2)}\n`, 'utf8')
 }
 
-export async function getReviews(productId: string) {
+export async function getReviewsByHandle(handle: string) {
+  const normalizedHandle = handle.trim().toLowerCase()
   const store = await readReviewsStore()
-  return [...(store[productId] ?? [])].sort((a, b) => {
-    return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  })
+
+  return store.reviews
+    .filter(review => review.handle === normalizedHandle)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 }
 
-export async function addReview(productId: string, review: ProductReview) {
-  const store = await readReviewsStore()
-  const reviews = store[productId] ?? []
+export function getReviewSummary(reviews: StoredReview[]) {
+  const reviewCount = reviews.length
+  const averageRating = reviewCount
+    ? Number((reviews.reduce((sum, review) => sum + review.rating, 0) / reviewCount).toFixed(1))
+    : 0
 
-  store[productId] = [review, ...reviews]
+  return {
+    reviewCount,
+    averageRating,
+    reviews: reviews.map(({ email: _email, ...review }) => review)
+  }
+}
+
+export async function createReview(input: ReviewInput) {
+  const store = await readReviewsStore()
+  const review: StoredReview = {
+    id: randomUUID(),
+    handle: input.handle.trim().toLowerCase(),
+    name: input.name.trim(),
+    email: input.email?.trim().toLowerCase() || undefined,
+    rating: input.rating,
+    comment: input.comment.trim(),
+    createdAt: new Date().toISOString()
+  }
+
+  store.reviews.unshift(review)
   await writeReviewsStore(store)
 
-  return store[productId]
+  return review
+}
+
+export function enforceReviewRateLimit(key: string) {
+  const now = Date.now()
+  const recentHits = (rateLimitStore.get(key) ?? []).filter(timestamp => now - timestamp < rateLimitWindowMs)
+
+  if (recentHits.length >= rateLimitMaxEntries) {
+    const retryAfterSeconds = Math.ceil((rateLimitWindowMs - (now - recentHits[0])) / 1000)
+    throw createError({
+      statusCode: 429,
+      statusMessage: 'Du har sendt mange anmeldelser på kort tid. Prøv igen lidt senere.',
+      data: {
+        retryAfter: retryAfterSeconds
+      }
+    })
+  }
+
+  recentHits.push(now)
+  rateLimitStore.set(key, recentHits)
 }

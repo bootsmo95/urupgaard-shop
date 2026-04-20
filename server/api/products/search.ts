@@ -69,6 +69,7 @@ function getAvailableTags(products: SearchProduct[]) {
 }
 
 export default defineEventHandler(async (event) => {
+  assertMethod(event, ['GET'])
   const query = getQuery(event)
   const search = typeof query.q === 'string' ? normalize(query.q) : ''
   const tags = typeof query.tags === 'string'

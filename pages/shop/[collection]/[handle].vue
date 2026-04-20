@@ -47,7 +47,7 @@ onBeforeUnmount(() => {
 <template>
   <div v-if="product" class="container-shell py-8 lg:py-10">
     <NuxtLink :to="`/shop/${collection}`" class="mb-8 inline-flex items-center gap-2 text-sm text-stone-500 transition hover:text-stone-900">
-      ← Tilbage til kollektion
+      ��� Tilbage til kollektion
     </NuxtLink>
 
     <div class="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
@@ -77,7 +77,7 @@ onBeforeUnmount(() => {
                 class="mt-3 w-full rounded-2xl border border-black/8 bg-white/80 px-4 py-3 text-stone-900 backdrop-blur"
               >
                 <option v-for="variant in product.variants" :key="variant.id" :value="variant.id">
-                  {{ variant.title }} · {{ variant.price }}
+                  {{ variant.title }} -� {{ variant.price }}
                 </option>
               </select>
             </div>
@@ -88,9 +88,9 @@ onBeforeUnmount(() => {
                 :disabled="loading || !selectedVariantId"
                 @click="onAddToCart"
               >
-                {{ loading ? 'Tilføjer til kurven...' : 'Læg i kurven' }}
+                {{ loading ? 'Tilf+�jer til kurven...' : 'L+�g i kurven' }}
               </button>
-              <NuxtLink to="/cart" class="pill-button-secondary w-full">Gå til kurven</NuxtLink>
+              <NuxtLink to="/cart" class="pill-button-secondary w-full">G+� til kurven</NuxtLink>
             </div>
 
             <Transition
@@ -113,16 +113,16 @@ onBeforeUnmount(() => {
           <div class="mt-6 grid gap-4 md:grid-cols-2">
             <div class="soft-panel p-5">
               <p class="text-sm font-semibold text-stone-900">Materiale</p>
-              <p class="mt-2 text-sm text-stone-600">Høj-brand keramik med håndlavet finish.</p>
+              <p class="mt-2 text-sm text-stone-600">H+�j-brand keramik med h+�ndlavet finish.</p>
             </div>
             <div class="soft-panel p-5">
               <p class="text-sm font-semibold text-stone-900">Pleje</p>
-              <p class="mt-2 text-sm text-stone-600">Velegnet til dagligt brug. Håndvask anbefales.</p>
+              <p class="mt-2 text-sm text-stone-600">Velegnet til dagligt brug. H+�ndvask anbefales.</p>
             </div>
           </div>
         </div>
 
-        <ProductReviews :product-id="product.id" />
+        <ProductReviews :handle="product.handle" />
       </div>
     </div>
 

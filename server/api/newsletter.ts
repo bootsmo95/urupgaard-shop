@@ -23,6 +23,7 @@ async function readSubscribers() {
 }
 
 export default defineEventHandler(async (event) => {
+  assertMethod(event, ['POST'])
   const body = await readBody<{ email?: string }>(event)
   const email = body.email?.trim().toLowerCase()
 

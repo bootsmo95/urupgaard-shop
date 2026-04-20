@@ -54,7 +54,7 @@ async function submitForm() {
   status.type = 'idle'
 
   try {
-    const response = await $fetch<{ message: string }>('/api/contact/send', {
+    const response = await $fetch<{ message: string }>('/api/contact', {
       method: 'POST',
       body: {
         name: form.name.trim(),
