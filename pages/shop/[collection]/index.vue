@@ -3,8 +3,17 @@ const route = useRoute()
 const handle = computed(() => String(route.params.collection || 'collection'))
 const { data, pending, error } = await useFetch(() => `/api/collections/${handle.value}`)
 
-const collection = computed(() => data.value?.collection)
-const products = computed(() => collection.value?.products ?? [])
+const collection = computed(() => {
+  const col = data.value?.collection
+  console.log('Collection computed:', col)
+  return col
+})
+
+const products = computed(() => {
+  const prods = collection.value?.products ?? []
+  console.log('Products computed:', prods, 'length:', prods.length)
+  return prods
+})
 
 onMounted(() => {
   console.log('Collection page mounted')
