@@ -41,9 +41,9 @@ Repoet er gjort klar til import i Netlify.
 
 ### Import settings
 - Build command: `npm run build`
-- Publish directory: lad Netlify runtime håndtere det
+- Publish directory: `dist`
 - Node version: `22`
-- Ingen Netlify Next.js plugin, det her er Nuxt/Nitro
+- Netlify kører Nuxt via `@netlify/nuxt` + Nitro preset `netlify`
 
 ### Environment variables
 ```env
@@ -60,6 +60,8 @@ NUXT_PUBLIC_SITE_URL=https://your-netlify-site.netlify.app
 5. Hvis Netlify har cached gammel config, så tryk redeploy efter seneste push
 
 Netlify skal her køre som SSR/Nitro runtime, så `nuxt build` er korrekt fordi projektet bruger API routes og cart logic.
+
+Projektet bruger nu `@netlify/nuxt`, som er Netlifys anbefalede integration til Nuxt og giver produktionsparitet for server routes og platform primitives.
 
 ### Efter første deploy
 Sæt `NUXT_PUBLIC_SITE_URL` til det rigtige Netlify domæne eller custom domæne og redeploy.
