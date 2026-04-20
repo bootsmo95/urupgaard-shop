@@ -1,22 +1,29 @@
 <script setup lang="ts">
 const route = useRoute()
 const handle = computed(() => String(route.params.handle || 'produkt'))
-const { data } = await useFetch('/api/products')
+const { data } = await useFetch(() => `/api/products/${handle.value}`)
 const { addToCart, loading } = useCart()
+const selectedVariantId = ref<string | null>(null)
 
-const product = computed(() => {
-  const products = data.value?.products ?? []
-  return products.find((entry: any) => entry.handle === handle.value) ?? products[0]
+const product = computed(() => data.value?.product)
+
+watchEffect(() => {
+  const firstVariant = product.value?.variants?.[0]
+  selectedVariantId.value = firstVariant?.id ?? product.value?.variantId ?? null
+})
+
+const selectedVariant = computed(() => {
+  return product.value?.variants?.find((variant: any) => variant.id === selectedVariantId.value) ?? product.value?.variants?.[0]
 })
 
 async function onAddToCart() {
-  if (!product.value?.variantId) return
+  if (!selectedVariantId.value || !product.value) return
 
   await addToCart({
-    merchandiseId: product.value.variantId,
+    merchandiseId: selectedVariantId.value,
     quantity: 1,
     title: product.value.title,
-    price: product.value.price,
+    price: selectedVariant.value?.price || product.value.price,
     image: product.value.image
   })
 
@@ -37,11 +44,21 @@ async function onAddToCart() {
         <p class="text-sm uppercase tracking-[0.3em] text-stone-500">Keramik</p>
         <h1 class="mt-3 text-5xl text-stone-900">{{ product.title }}</h1>
         <p class="mt-6 text-lg leading-8 text-stone-600">{{ product.description }}</p>
+
+        <div v-if="product.variants?.length > 1" class="mt-8">
+          <label class="mb-2 block text-sm uppercase tracking-[0.2em] text-stone-500">Variant</label>
+          <select v-model="selectedVariantId" class="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-stone-900">
+            <option v-for="variant in product.variants" :key="variant.id" :value="variant.id">
+              {{ variant.title }} · {{ variant.price }}
+            </option>
+          </select>
+        </div>
+
         <div class="mt-8 flex items-end justify-between gap-4">
-          <span class="text-3xl text-stone-900">{{ product.price }}</span>
+          <span class="text-3xl text-stone-900">{{ selectedVariant?.price || product.price }}</span>
           <button
             class="rounded-full bg-stone-900 px-6 py-3 text-sm text-white disabled:opacity-50"
-            :disabled="loading || !product.variantId"
+            :disabled="loading || !selectedVariantId"
             @click="onAddToCart"
           >
             {{ loading ? 'Lægger i kurv...' : 'Læg i kurv' }}

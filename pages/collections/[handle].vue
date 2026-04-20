@@ -1,21 +1,22 @@
 <script setup lang="ts">
 const route = useRoute()
 const handle = computed(() => String(route.params.handle || 'keramik'))
-const { data } = await useFetch('/api/products')
+const { data } = await useFetch(() => `/api/collections/${handle.value}`)
 const products = computed(() => data.value?.products ?? [])
+const collection = computed(() => data.value?.collection)
 </script>
 
 <template>
   <div class="container-shell py-10">
     <div class="card p-8 lg:p-12">
       <p class="text-sm uppercase tracking-[0.3em] text-stone-500">Kollektion</p>
-      <h1 class="mt-3 text-5xl capitalize text-stone-900">{{ handle }}</h1>
+      <h1 class="mt-3 text-5xl text-stone-900">{{ collection?.title || handle }}</h1>
       <p class="mt-4 max-w-2xl text-lg text-stone-600">
-        Midlertidig collection-side. Næste step er at koble rigtige Shopify collections på Storefront API.
+        {{ collection?.description || 'Denne kollektion hentes fra Shopify når den findes og er publiceret.' }}
       </p>
     </div>
 
-    <div class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+    <div v-if="products.length" class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
       <article v-for="product in products" :key="product.id" class="card overflow-hidden">
         <div class="aspect-[4/3] bg-stone-100">
           <img v-if="product.image" :src="product.image" :alt="product.title" class="h-full w-full object-cover" />
@@ -29,6 +30,10 @@ const products = computed(() => data.value?.products ?? [])
           </div>
         </div>
       </article>
+    </div>
+
+    <div v-else class="mt-8 card p-8 text-stone-600">
+      Ingen produkter fundet i denne collection endnu.
     </div>
   </div>
 </template>
