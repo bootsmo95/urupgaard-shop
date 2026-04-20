@@ -1,13 +1,13 @@
 export default defineNuxtConfig({
   compatibilityDate: '2026-03-01',
   devtools: { enabled: true },
-  modules: ['@netlify/nuxt', '@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss'],
   nitro: {
-    preset: 'netlify'
+    preset: 'node-server'
   },
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
-    shopifyStorefrontToken: process.env.SHOPIFY_STOREFRONT_TOKEN,
+    shopifyStorefrontToken: process.env.SHOPIFY_STOREFRONT_ACCESS_TOKEN,
     shopifyStoreDomain: process.env.SHOPIFY_STORE_DOMAIN,
     contactNotificationWebhookUrl: process.env.CONTACT_NOTIFICATION_WEBHOOK_URL,
     public: {
