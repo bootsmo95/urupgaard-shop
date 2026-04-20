@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      # Shopify
+      SHOPIFY_STORE_DOMAIN: ${SHOPIFY_STORE_DOMAIN}
+      SHOPIFY_STOREFRONT_ACCESS_TOKEN: ${SHOPIFY_STOREFRONT_ACCESS_TOKEN}
+
+      # Public
+      NUXT_PUBLIC_SITE_URL: ${NUXT_PUBLIC_SITE_URL}
+
+      # Optional
+      CONTACT_NOTIFICATION_WEBHOOK_URL: ${CONTACT_NOTIFICATION_WEBHOOK_URL}
+
+      # Runtime
+      NITRO_HOST: 0.0.0.0
+      NITRO_PORT: 3000
+    restart: unless-stopped
