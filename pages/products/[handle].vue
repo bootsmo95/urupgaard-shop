@@ -2,8 +2,10 @@
 const route = useRoute()
 const handle = computed(() => String(route.params.handle || 'produkt'))
 const { data } = await useFetch(() => `/api/products/${handle.value}`)
-const { addToCart, loading } = useCart()
+const { addToCart, loading, cart } = useCart()
 const selectedVariantId = ref<string | null>(null)
+const addedMessage = ref('')
+let addedTimer: ReturnType<typeof setTimeout> | undefined
 
 const product = computed(() => data.value?.product)
 
@@ -27,8 +29,17 @@ async function onAddToCart() {
     image: product.value.image
   })
 
-  await navigateTo('/cart')
+  addedMessage.value = `${product.value.title} er lagt i kurven`
+
+  if (addedTimer) clearTimeout(addedTimer)
+  addedTimer = setTimeout(() => {
+    addedMessage.value = ''
+  }, 3500)
 }
+
+onBeforeUnmount(() => {
+  if (addedTimer) clearTimeout(addedTimer)
+})
 </script>
 
 <template>
@@ -64,8 +75,22 @@ async function onAddToCart() {
             {{ loading ? 'Lægger i kurv...' : 'Læg i kurv' }}
           </button>
         </div>
+
+        <Transition
+          enter-active-class="transition duration-200 ease-out"
+          enter-from-class="translate-y-2 opacity-0"
+          enter-to-class="translate-y-0 opacity-100"
+          leave-active-class="transition duration-150 ease-in"
+          leave-from-class="translate-y-0 opacity-100"
+          leave-to-class="translate-y-2 opacity-0"
+        >
+          <div v-if="addedMessage" class="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+            {{ addedMessage }}. Du har nu {{ cart.totalQuantity }} vare(r) i kurven.
+          </div>
+        </Transition>
+
         <div class="mt-8 rounded-[24px] bg-stone-50 p-5 text-sm leading-7 text-stone-600">
-          V1 bruger Shopify cart og redirecter checkout til Shopify. Det holder setup let og driftssikkert.
+          V1 bruger Shopify cart og redirecter først til Shopify ved checkout, så oplevelsen føles mere som en rigtig butik.
         </div>
       </div>
     </div>
