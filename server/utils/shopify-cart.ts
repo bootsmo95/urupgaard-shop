@@ -164,6 +164,130 @@ export async function addShopifyCartLines(cartId: string, lines: CartLineInput[]
   return mapCart(data.cartLinesAdd.cart)
 }
 
+export async function updateShopifyCartLines(cartId: string, lines: { id: string; quantity: number }[]) {
+  const client = useShopifyClient()
+  if (!client) return null
+
+  const query = `#graphql
+    mutation UpdateCartLines($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+      cartLinesUpdate(cartId: $cartId, lines: $lines) {
+        cart {
+          id
+          checkoutUrl
+          totalQuantity
+          cost { totalAmount { amount currencyCode } }
+          lines(first: 20) {
+            nodes {
+              id
+              quantity
+              cost { totalAmount { amount currencyCode } }
+              merchandise {
+                ... on ProductVariant {
+                  id
+                  price { amount currencyCode }
+                  product {
+                    title
+                    featuredImage { url }
+                  }
+                }
+              }
+            }
+          }
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `
+
+  const { data, errors } = await client.request(query, {
+    variables: { cartId, lines }
+  })
+
+  if (errors?.length) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Shopify cartLinesUpdate request failed',
+      data: { errors }
+    })
+  }
+
+  throwOnUserErrors('cartLinesUpdate', data?.cartLinesUpdate)
+
+  if (!data?.cartLinesUpdate?.cart) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Shopify cartLinesUpdate returned no cart'
+    })
+  }
+
+  return mapCart(data.cartLinesUpdate.cart)
+}
+
+export async function removeShopifyCartLines(cartId: string, lineIds: string[]) {
+  const client = useShopifyClient()
+  if (!client) return null
+
+  const query = `#graphql
+    mutation RemoveCartLines($cartId: ID!, $lineIds: [ID!]!) {
+      cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+        cart {
+          id
+          checkoutUrl
+          totalQuantity
+          cost { totalAmount { amount currencyCode } }
+          lines(first: 20) {
+            nodes {
+              id
+              quantity
+              cost { totalAmount { amount currencyCode } }
+              merchandise {
+                ... on ProductVariant {
+                  id
+                  price { amount currencyCode }
+                  product {
+                    title
+                    featuredImage { url }
+                  }
+                }
+              }
+            }
+          }
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+  `
+
+  const { data, errors } = await client.request(query, {
+    variables: { cartId, lineIds }
+  })
+
+  if (errors?.length) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Shopify cartLinesRemove request failed',
+      data: { errors }
+    })
+  }
+
+  throwOnUserErrors('cartLinesRemove', data?.cartLinesRemove)
+
+  if (!data?.cartLinesRemove?.cart) {
+    throw createError({
+      statusCode: 500,
+      statusMessage: 'Shopify cartLinesRemove returned no cart'
+    })
+  }
+
+  return mapCart(data.cartLinesRemove.cart)
+}
+
 export async function getShopifyCart(cartId: string) {
   const client = useShopifyClient()
   if (!client) return null

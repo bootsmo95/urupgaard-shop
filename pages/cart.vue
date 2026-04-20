@@ -1,9 +1,22 @@
 <script setup lang="ts">
-const { cart, loading, refreshCart, checkout } = useCart()
+const { cart, loading, refreshCart, checkout, updateLine, removeLine } = useCart()
 
 onMounted(() => {
   refreshCart()
 })
+
+async function increment(lineId: string, quantity: number) {
+  await updateLine(lineId, quantity + 1)
+}
+
+async function decrement(lineId: string, quantity: number) {
+  if (quantity <= 1) {
+    await removeLine(lineId)
+    return
+  }
+
+  await updateLine(lineId, quantity - 1)
+}
 </script>
 
 <template>
@@ -23,7 +36,12 @@ onMounted(() => {
             <div class="flex flex-1 items-center justify-between gap-4">
               <div>
                 <h2 class="text-xl text-stone-900">{{ line.title }}</h2>
-                <p class="mt-2 text-sm text-stone-500">Antal: {{ line.quantity }}</p>
+                <div class="mt-3 flex items-center gap-3">
+                  <button class="rounded-full border border-stone-300 px-3 py-1 text-sm" :disabled="loading" @click="decrement(line.id, line.quantity)">-</button>
+                  <span class="min-w-6 text-center text-sm text-stone-700">{{ line.quantity }}</span>
+                  <button class="rounded-full border border-stone-300 px-3 py-1 text-sm" :disabled="loading" @click="increment(line.id, line.quantity)">+</button>
+                  <button class="ml-3 text-sm text-stone-500 underline underline-offset-4" :disabled="loading" @click="removeLine(line.id)">Fjern</button>
+                </div>
               </div>
               <p class="text-lg text-stone-900">{{ line.price }}</p>
             </div>

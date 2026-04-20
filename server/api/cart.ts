@@ -1,6 +1,15 @@
 import { buildFallbackCheckoutUrl, getSessionCart, setSessionCart } from '../utils/cart'
-import { getShopifyCart, addShopifyCartLines, createShopifyCart } from '../utils/shopify-cart'
+import { getShopifyCart, addShopifyCartLines, createShopifyCart, removeShopifyCartLines, updateShopifyCartLines } from '../utils/shopify-cart'
 import type { CartSummary } from '~/types/shop'
+
+function updateFallbackTotals(cart: CartSummary) {
+  cart.totalQuantity = cart.lines.reduce((sum, line) => sum + line.quantity, 0)
+  cart.totalAmount = `${cart.lines.reduce((sum, line) => {
+    const parsed = Number(String(line.price).split(' ')[0].replace(',', '.')) || 0
+    return sum + parsed * line.quantity
+  }, 0)} DKK`
+  return cart
+}
 
 export default defineEventHandler(async (event) => {
   const sessionId = getCookie(event, 'ug_session') || crypto.randomUUID()
@@ -51,13 +60,57 @@ export default defineEventHandler(async (event) => {
       })
     }
 
-    nextCart.totalAmount = `${nextCart.lines.reduce((sum, line) => {
-      const parsed = Number(String(line.price).split(' ')[0].replace(',', '.')) || 0
-      return sum + parsed * line.quantity
-    }, 0)} DKK`
-
-    setSessionCart(sessionId, nextCart)
+    setSessionCart(sessionId, updateFallbackTotals(nextCart))
     return nextCart
+  }
+
+  if (event.method === 'PATCH') {
+    const body = await readBody<{ lineId?: string; quantity?: number }>(event)
+
+    if (!body?.lineId || body.quantity === undefined) {
+      throw createError({ statusCode: 400, statusMessage: 'Missing lineId or quantity' })
+    }
+
+    const quantity = Math.max(0, Number(body.quantity))
+    const cartId = getCookie(event, 'ug_cart_id')
+
+    if (cartId) {
+      if (quantity === 0) {
+        const updated = await removeShopifyCartLines(cartId, [body.lineId])
+        if (updated) return updated
+      } else {
+        const updated = await updateShopifyCartLines(cartId, [{ id: body.lineId, quantity }])
+        if (updated) return updated
+      }
+    }
+
+    const fallback = getSessionCart(sessionId)
+    fallback.lines = fallback.lines
+      .map((line) => line.id === body.lineId ? { ...line, quantity } : line)
+      .filter((line) => line.quantity > 0)
+
+    setSessionCart(sessionId, updateFallbackTotals(fallback))
+    return fallback
+  }
+
+  if (event.method === 'DELETE') {
+    const body = await readBody<{ lineId?: string }>(event)
+
+    if (!body?.lineId) {
+      throw createError({ statusCode: 400, statusMessage: 'Missing lineId' })
+    }
+
+    const cartId = getCookie(event, 'ug_cart_id')
+
+    if (cartId) {
+      const updated = await removeShopifyCartLines(cartId, [body.lineId])
+      if (updated) return updated
+    }
+
+    const fallback = getSessionCart(sessionId)
+    fallback.lines = fallback.lines.filter((line) => line.id !== body.lineId)
+    setSessionCart(sessionId, updateFallbackTotals(fallback))
+    return fallback
   }
 
   const cartId = getCookie(event, 'ug_cart_id')

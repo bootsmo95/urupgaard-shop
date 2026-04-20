@@ -38,6 +38,30 @@ export function useCart() {
     }
   }
 
+  async function updateLine(lineId: string, quantity: number) {
+    loading.value = true
+    try {
+      cart.value = await $fetch<CartSummary>('/api/cart', {
+        method: 'PATCH',
+        body: { lineId, quantity }
+      })
+    } finally {
+      loading.value = false
+    }
+  }
+
+  async function removeLine(lineId: string) {
+    loading.value = true
+    try {
+      cart.value = await $fetch<CartSummary>('/api/cart', {
+        method: 'DELETE',
+        body: { lineId }
+      })
+    } finally {
+      loading.value = false
+    }
+  }
+
   async function checkout() {
     if (!cart.value.checkoutUrl) {
       await refreshCart()
@@ -53,6 +77,8 @@ export function useCart() {
     loading,
     refreshCart,
     addToCart,
+    updateLine,
+    removeLine,
     checkout
   }
 }
