@@ -2,7 +2,7 @@
 const route = useRoute()
 const handle = computed(() => String(route.params.handle || 'produkt'))
 const { data } = await useFetch(() => `/api/products/${handle.value}`)
-const { addToCart, loading, cart } = useCart()
+const { addToCart, loading } = useCart()
 const selectedVariantId = ref<string | null>(null)
 const addedMessage = ref('')
 let addedTimer: ReturnType<typeof setTimeout> | undefined
@@ -45,19 +45,7 @@ onBeforeUnmount(() => {
 <template>
   <div v-if="product" class="container-shell py-8 lg:py-10">
     <div class="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
-      <div class="flex flex-col gap-4">
-        <div class="card overflow-hidden">
-          <div class="image-shell aspect-[4/5] overflow-hidden">
-            <img v-if="product.image" :src="product.image" :alt="product.title" class="h-full w-full object-cover" />
-          </div>
-        </div>
-        
-        <div v-if="product.images?.length > 1" class="grid gap-3 grid-cols-4">
-          <div v-for="(img, idx) in product.images?.slice(0, 4)" :key="idx" class="soft-panel overflow-hidden rounded-2xl">
-            <img :src="img" :alt="`View ${idx + 1}`" class="h-full w-full object-cover" />
-          </div>
-        </div>
-      </div>
+      <ProductGallery :images="product.images" :title="product.title" />
 
       <div>
         <div>

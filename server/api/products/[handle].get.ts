@@ -17,9 +17,15 @@ export default defineEventHandler(async (event) => {
         handle
         title
         description
-        featuredImage { url }
-        images(first: 10) {
-          nodes { url }
+        featuredImage {
+          url
+          altText
+        }
+        images(first: 50) {
+          nodes {
+            url
+            altText
+          }
         }
         variants(first: 25) {
           nodes {
@@ -45,6 +51,13 @@ export default defineEventHandler(async (event) => {
   }
 
   const firstVariant = data.product.variants?.nodes?.[0]
+  const images = [data.product.featuredImage, ...(data.product.images?.nodes ?? [])]
+    .filter((image: any) => image?.url)
+    .filter((image: any, index: number, all: any[]) => all.findIndex((entry) => entry.url === image.url) === index)
+    .map((image: any) => ({
+      url: image.url,
+      alt: image.altText ?? data.product.title
+    }))
 
   return {
     source: 'shopify',
@@ -53,8 +66,8 @@ export default defineEventHandler(async (event) => {
       handle: data.product.handle,
       title: data.product.title,
       description: data.product.description,
-      image: data.product.featuredImage?.url,
-      images: data.product.images?.nodes?.map((image: any) => image.url) ?? [],
+      image: images[0]?.url,
+      images,
       price: firstVariant ? `${Number(firstVariant.price.amount).toFixed(0)} ${firstVariant.price.currencyCode}` : '0 DKK',
       variantId: firstVariant?.id,
       variants: (data.product.variants?.nodes ?? []).map((variant: any) => ({
