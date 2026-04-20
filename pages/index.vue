@@ -64,7 +64,7 @@ const heroDrop = upcomingDrops[0]
         </p>
       </div>
 
-      <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      <div class="grid gap-5 md:grid-cols-2">
         <NuxtLink
           v-for="product in products"
           :key="product.id"
