@@ -1,19 +1,34 @@
 <script setup lang="ts">
 const route = useRoute()
 const handle = computed(() => String(route.params.collection || 'collection'))
-const { data } = await useFetch(() => `/api/collections/${handle.value}`)
+const { data, pending, error } = await useFetch(() => `/api/collections/${handle.value}`)
 
 const collection = computed(() => data.value?.collection)
 const products = computed(() => collection.value?.products ?? [])
+
+watch([collection, products], ([col, prods]) => {
+  if (import.meta.dev) {
+    console.log('Collection loaded:', col)
+    console.log('Products:', prods)
+  }
+})
 </script>
 
 <template>
-  <div v-if="collection" class="container-shell py-8 lg:py-10">
+  <div v-if="!pending" class="container-shell py-8 lg:py-10">
+    <div v-if="error" class="mb-10 rounded-2xl border border-red-200 bg-red-50 p-6 text-red-800">
+      <p class="font-semibold">Fejl ved loading af kollektion:</p>
+      <p class="mt-2 text-sm">{{ error }}</p>
+    </div>
+
+    <div v-if="!collection" class="mb-10 rounded-2xl border border-amber-200 bg-amber-50 p-6 text-amber-800">
+      <p>Data: {{ JSON.stringify(data) }}</p>
+    </div>
     <NuxtLink to="/shop" class="mb-8 inline-flex items-center gap-2 text-sm text-stone-500 transition hover:text-stone-900">
       ← Tilbage til shop
     </NuxtLink>
 
-    <div class="mb-10 space-y-3">
+    <div v-if="collection" class="mb-10 space-y-3">
       <p class="editorial-kicker">Kollektion</p>
       <h1 class="text-6xl leading-none text-stone-900">{{ collection.title }}</h1>
       <p v-if="collection.description" class="max-w-2xl text-lg leading-8 text-stone-600">{{ collection.description }}</p>
