@@ -1,5 +1,9 @@
+<script setup>
+// Footer will auto-fetch shop data
+</script>
+
 <template>
-  <div>
+  <div class="flex flex-col min-h-screen">
     <header class="sticky top-0 z-40 border-b border-black/5 bg-[#f7f3ed]/80 backdrop-blur-xl">
       <div class="container-shell flex items-center justify-between py-4">
         <NuxtLink to="/" class="flex flex-col leading-none">
@@ -19,8 +23,10 @@
       </div>
     </header>
 
-    <main>
+    <main class="flex-1">
       <slot />
     </main>
+
+    <SiteFooter />
   </div>
 </template>
