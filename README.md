@@ -40,8 +40,8 @@ Nuxt 4 starter til en simpel Shopify-baseret gårdbutik med fokus på keramik, s
 Repoet er gjort klar til import i Netlify.
 
 ### Import settings
-- Build command: `npm run generate`
-- Publish directory: `.output/public`
+- Build command: `npm run build`
+- Publish directory: lad Netlify runtime håndtere det
 - Node version: `22`
 - Ingen Netlify Next.js plugin, det her er Nuxt/Nitro
 
@@ -59,7 +59,7 @@ NUXT_PUBLIC_SITE_URL=https://your-netlify-site.netlify.app
 4. Deploy
 5. Hvis Netlify har cached gammel config, så tryk redeploy efter seneste push
 
-Netlify deployer her som statisk site via `nuxt generate`, ikke som SSR server.
+Netlify skal her køre som SSR/Nitro runtime, så `nuxt build` er korrekt fordi projektet bruger API routes og cart logic.
 
 ### Efter første deploy
 Sæt `NUXT_PUBLIC_SITE_URL` til det rigtige Netlify domæne eller custom domæne og redeploy.
