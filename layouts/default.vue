@@ -8,7 +8,7 @@
         </NuxtLink>
 
         <div class="flex items-center gap-4 md:gap-8">
-          <NuxtLink to="/collections/keramik" class="text-sm text-stone-700 transition hover:text-stone-900">
+          <NuxtLink to="/shop" class="text-sm text-stone-700 transition hover:text-stone-900">
             Shop
           </NuxtLink>
           <NuxtLink to="/drops" class="text-sm text-stone-700 transition hover:text-stone-900">

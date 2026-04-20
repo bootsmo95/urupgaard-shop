@@ -20,7 +20,7 @@ const heroDrop = upcomingDrops[0]
           </p>
 
           <div class="mt-8 flex flex-wrap gap-3">
-            <NuxtLink to="/collections/keramik" class="pill-button-primary">Shop kollektionen</NuxtLink>
+            <NuxtLink to="/shop" class="pill-button-primary">Shop kollektionen</NuxtLink>
             <NuxtLink to="/drops" class="pill-button-secondary">Se næste drop</NuxtLink>
           </div>
         </div>
@@ -65,20 +65,27 @@ const heroDrop = upcomingDrops[0]
       </div>
 
       <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        <article v-for="product in products" :key="product.id" class="product-card">
-          <div class="image-shell aspect-[4/5] overflow-hidden">
-            <img v-if="product.image" :src="product.image" :alt="product.title" class="h-full w-full object-cover transition duration-500 hover:scale-[1.03]" />
+        <NuxtLink
+          v-for="product in products"
+          :key="product.id"
+          :to="`/shop/keramik/${product.handle}`"
+          class="group product-card block"
+        >
+          <div class="overflow-hidden">
+            <div class="image-shell aspect-[4/5]">
+              <img v-if="product.image" :src="product.image" :alt="product.title" class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]" />
+            </div>
           </div>
           <div class="p-6">
             <p class="editorial-kicker">Keramik</p>
-            <h3 class="mt-3 text-3xl leading-none text-stone-900">{{ product.title }}</h3>
+            <h3 class="mt-3 text-3xl leading-none text-stone-900 transition group-hover:text-stone-600">{{ product.title }}</h3>
             <p class="mt-3 line-clamp-2 text-sm leading-7 text-stone-600">{{ product.description }}</p>
             <div class="mt-6 flex items-center justify-between gap-3">
               <span class="text-base font-semibold text-stone-900">{{ product.price }}</span>
-              <NuxtLink :to="`/products/${product.handle}`" class="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500">Se mere</NuxtLink>
+              <span class="text-sm font-semibold uppercase tracking-[0.18em] text-stone-500 group-hover:text-stone-900">Se mere →</span>
             </div>
           </div>
-        </article>
+        </NuxtLink>
       </div>
     </section>
   </div>
