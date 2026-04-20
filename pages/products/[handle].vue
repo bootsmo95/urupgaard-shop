@@ -43,54 +43,87 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div v-if="product" class="container-shell py-10">
-    <div class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-      <div class="card overflow-hidden">
-        <div class="aspect-square bg-stone-100">
-          <img v-if="product.image" :src="product.image" :alt="product.title" class="h-full w-full object-cover" />
+  <div v-if="product" class="container-shell py-8 lg:py-10">
+    <div class="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
+      <div class="flex flex-col gap-4">
+        <div class="card overflow-hidden">
+          <div class="image-shell aspect-[4/5] overflow-hidden">
+            <img v-if="product.image" :src="product.image" :alt="product.title" class="h-full w-full object-cover" />
+          </div>
+        </div>
+        
+        <div v-if="product.images?.length > 1" class="grid gap-3 grid-cols-4">
+          <div v-for="(img, idx) in product.images?.slice(0, 4)" :key="idx" class="soft-panel overflow-hidden rounded-2xl">
+            <img :src="img" :alt="`View ${idx + 1}`" class="h-full w-full object-cover" />
+          </div>
         </div>
       </div>
 
-      <div class="card p-8 lg:p-10">
-        <p class="text-sm uppercase tracking-[0.3em] text-stone-500">Keramik</p>
-        <h1 class="mt-3 text-5xl text-stone-900">{{ product.title }}</h1>
-        <p class="mt-6 text-lg leading-8 text-stone-600">{{ product.description }}</p>
-
-        <div v-if="product.variants?.length > 1" class="mt-8">
-          <label class="mb-2 block text-sm uppercase tracking-[0.2em] text-stone-500">Variant</label>
-          <select v-model="selectedVariantId" class="w-full rounded-2xl border border-stone-200 bg-white px-4 py-3 text-stone-900">
-            <option v-for="variant in product.variants" :key="variant.id" :value="variant.id">
-              {{ variant.title }} · {{ variant.price }}
-            </option>
-          </select>
-        </div>
-
-        <div class="mt-8 flex items-end justify-between gap-4">
-          <span class="text-3xl text-stone-900">{{ selectedVariant?.price || product.price }}</span>
-          <button
-            class="rounded-full bg-stone-900 px-6 py-3 text-sm text-white disabled:opacity-50"
-            :disabled="loading || !selectedVariantId"
-            @click="onAddToCart"
-          >
-            {{ loading ? 'Lægger i kurv...' : 'Læg i kurv' }}
-          </button>
-        </div>
-
-        <Transition
-          enter-active-class="transition duration-200 ease-out"
-          enter-from-class="translate-y-2 opacity-0"
-          enter-to-class="translate-y-0 opacity-100"
-          leave-active-class="transition duration-150 ease-in"
-          leave-from-class="translate-y-0 opacity-100"
-          leave-to-class="translate-y-2 opacity-0"
-        >
-          <div v-if="addedMessage" class="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-            {{ addedMessage }}. Du har nu {{ cart.totalQuantity }} vare(r) i kurven.
+      <div>
+        <div>
+          <p class="editorial-kicker">Keramik fra værkstedet</p>
+          <h1 class="mt-4 text-6xl leading-none text-stone-900">{{ product.title }}</h1>
+          
+          <div class="mt-8 border-t border-black/8 pt-6">
+            <p class="text-base leading-8 text-stone-700">{{ product.description }}</p>
           </div>
-        </Transition>
 
-        <div class="mt-8 rounded-[24px] bg-stone-50 p-5 text-sm leading-7 text-stone-600">
-          V1 bruger Shopify cart og redirecter først til Shopify ved checkout, så oplevelsen føles mere som en rigtig butik.
+          <div class="mt-10 space-y-6">
+            <div>
+              <p class="text-sm font-semibold uppercase tracking-[0.2em] text-stone-500">Pris</p>
+              <p class="mt-3 text-5xl text-stone-900">{{ selectedVariant?.price || product.price }}</p>
+            </div>
+
+            <div v-if="product.variants?.length > 1">
+              <p class="text-sm font-semibold uppercase tracking-[0.2em] text-stone-500">Variant</p>
+              <select 
+                v-model="selectedVariantId" 
+                class="mt-3 w-full rounded-2xl border border-black/8 bg-white/80 px-4 py-3 text-stone-900 backdrop-blur"
+              >
+                <option v-for="variant in product.variants" :key="variant.id" :value="variant.id">
+                  {{ variant.title }} · {{ variant.price }}
+                </option>
+              </select>
+            </div>
+
+            <div class="flex flex-col gap-3 pt-4">
+              <button
+                class="pill-button-primary w-full"
+                :disabled="loading || !selectedVariantId"
+                @click="onAddToCart"
+              >
+                {{ loading ? 'Tilføjer til kurven...' : 'Læg i kurven' }}
+              </button>
+              <NuxtLink to="/cart" class="pill-button-secondary w-full">Gå til kurven</NuxtLink>
+            </div>
+
+            <Transition
+              enter-active-class="transition duration-200 ease-out"
+              enter-from-class="translate-y-2 opacity-0"
+              enter-to-class="translate-y-0 opacity-100"
+              leave-active-class="transition duration-150 ease-in"
+              leave-from-class="translate-y-0 opacity-100"
+              leave-to-class="translate-y-2 opacity-0"
+            >
+              <div v-if="addedMessage" class="rounded-2xl border border-emerald-200 bg-emerald-50/80 px-4 py-3 text-sm text-emerald-800 backdrop-blur">
+                {{ addedMessage }}
+              </div>
+            </Transition>
+          </div>
+        </div>
+
+        <div class="mt-10 border-t border-black/8 pt-10">
+          <p class="editorial-kicker">Om denne vare</p>
+          <div class="mt-6 grid gap-4 md:grid-cols-2">
+            <div class="soft-panel p-5">
+              <p class="text-sm font-semibold text-stone-900">Materiale</p>
+              <p class="mt-2 text-sm text-stone-600">Høj-brand keramik med håndlavet finish.</p>
+            </div>
+            <div class="soft-panel p-5">
+              <p class="text-sm font-semibold text-stone-900">Pleje</p>
+              <p class="mt-2 text-sm text-stone-600">Velegnet til dagligt brug. Håndvask anbefales.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

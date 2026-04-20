@@ -1,83 +1,122 @@
 <script setup lang="ts">
-const { cart, loading, refreshCart, checkout, updateLine, removeLine } = useCart()
+const { cart, loading, removeFromCart, updateQuantity, refreshCart } = useCart()
 
 onMounted(() => {
   refreshCart()
 })
 
-async function increment(lineId: string, quantity: number) {
-  await updateLine(lineId, quantity + 1)
-}
-
-async function decrement(lineId: string, quantity: number) {
-  if (quantity <= 1) {
-    await removeLine(lineId)
-    return
+async function handleQuantityChange(lineId: string, newQuantity: number) {
+  if (newQuantity <= 0) {
+    await removeFromCart(lineId)
+  } else {
+    await updateQuantity(lineId, newQuantity)
   }
-
-  await updateLine(lineId, quantity - 1)
 }
 </script>
 
 <template>
-  <div class="container-shell py-10">
-    <div class="grid gap-8 lg:grid-cols-[1fr_0.42fr]">
-      <section class="card p-8 lg:p-10">
-        <p class="text-sm uppercase tracking-[0.35em] text-stone-500">Kurv</p>
-        <h1 class="mt-4 text-5xl text-stone-900">Dine varer</h1>
+  <div class="container-shell py-8 lg:py-10">
+    <div class="mb-10">
+      <p class="editorial-kicker">Kurv</p>
+      <h1 class="mt-3 text-6xl leading-none text-stone-900">Dine varer</h1>
+    </div>
 
-        <div v-if="cart.lines.length" class="mt-8 space-y-4">
-          <article
-            v-for="line in cart.lines"
-            :key="line.id"
-            class="flex gap-4 rounded-[24px] border border-black/5 bg-stone-50/70 p-4"
-          >
-            <img v-if="line.image" :src="line.image" :alt="line.title" class="h-24 w-24 rounded-2xl object-cover" />
-            <div class="flex flex-1 items-center justify-between gap-4">
-              <div>
-                <h2 class="text-xl text-stone-900">{{ line.title }}</h2>
-                <div class="mt-3 flex items-center gap-3">
-                  <button class="rounded-full border border-stone-300 px-3 py-1 text-sm" :disabled="loading" @click="decrement(line.id, line.quantity)">-</button>
-                  <span class="min-w-6 text-center text-sm text-stone-700">{{ line.quantity }}</span>
-                  <button class="rounded-full border border-stone-300 px-3 py-1 text-sm" :disabled="loading" @click="increment(line.id, line.quantity)">+</button>
-                  <button class="ml-3 text-sm text-stone-500 underline underline-offset-4" :disabled="loading" @click="removeLine(line.id)">Fjern</button>
-                </div>
+    <div v-if="cart.lines.length === 0" class="rounded-3xl border border-black/8 bg-stone-50/50 p-12 text-center">
+      <p class="text-lg text-stone-600">Din kurv er tom</p>
+      <NuxtLink to="/collections/keramik" class="pill-button-primary mt-6 inline-block">Fortsæt med at shoppe</NuxtLink>
+    </div>
+
+    <div v-else class="grid gap-10 lg:grid-cols-[1fr_380px]">
+      <div class="space-y-4">
+        <article v-for="line in cart.lines" :key="line.id" class="card overflow-hidden p-6 md:p-8">
+          <div class="flex gap-6">
+            <div class="w-24 flex-shrink-0">
+              <div class="image-shell aspect-[4/5] overflow-hidden rounded-2xl">
+                <img v-if="line.image" :src="line.image" :alt="line.title" class="h-full w-full object-cover" />
               </div>
-              <p class="text-lg text-stone-900">{{ line.price }}</p>
             </div>
-          </article>
-        </div>
 
-        <div v-else class="mt-8 rounded-[24px] bg-stone-50 p-6 text-stone-600">
-          Kurven er tom lige nu.
-        </div>
-      </section>
+            <div class="flex-1">
+              <div class="flex items-start justify-between">
+                <div>
+                  <h3 class="text-2xl text-stone-900">{{ line.title }}</h3>
+                  <p class="mt-1 text-sm text-stone-500">{{ line.price }}</p>
+                </div>
+                <button
+                  @click="removeFromCart(line.id)"
+                  class="text-xs font-semibold uppercase tracking-[0.15em] text-stone-400 transition hover:text-stone-900"
+                >
+                  Fjern
+                </button>
+              </div>
 
-      <aside class="card p-8">
-        <p class="text-sm uppercase tracking-[0.35em] text-stone-500">Oversigt</p>
-        <div class="mt-6 space-y-4 text-stone-700">
-          <div class="flex items-center justify-between">
-            <span>Antal varer</span>
-            <span>{{ cart.totalQuantity }}</span>
+              <div class="mt-6 flex items-center gap-3">
+                <button
+                  @click="handleQuantityChange(line.id, line.quantity - 1)"
+                  :disabled="loading"
+                  class="flex h-9 w-9 items-center justify-center rounded-full border border-black/8 text-stone-600 transition hover:bg-stone-100 disabled:opacity-50"
+                >
+                  −
+                </button>
+                <span class="w-8 text-center font-semibold text-stone-900">{{ line.quantity }}</span>
+                <button
+                  @click="handleQuantityChange(line.id, line.quantity + 1)"
+                  :disabled="loading"
+                  class="flex h-9 w-9 items-center justify-center rounded-full border border-black/8 text-stone-600 transition hover:bg-stone-100 disabled:opacity-50"
+                >
+                  +
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="flex items-center justify-between text-xl text-stone-900">
-            <span>Total</span>
-            <span>{{ cart.totalAmount }}</span>
+        </article>
+      </div>
+
+      <div class="lg:sticky lg:top-20 lg:h-fit">
+        <div class="card space-y-6 p-8">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-stone-500">Oversigt</p>
+            <div class="mt-6 space-y-3 text-sm">
+              <div class="flex items-center justify-between text-stone-600">
+                <span>Subtotal</span>
+                <span>{{ cart.totalAmount }}</span>
+              </div>
+              <div class="flex items-center justify-between text-stone-600">
+                <span>Levering</span>
+                <span>Beregnes ved checkout</span>
+              </div>
+              <div class="flex items-center justify-between text-stone-600">
+                <span>Moms</span>
+                <span>Inkluderet</span>
+              </div>
+            </div>
+
+            <div class="mt-6 border-t border-black/8 pt-6">
+              <div class="flex items-center justify-between text-lg font-semibold text-stone-900">
+                <span>I alt</span>
+                <span>{{ cart.totalAmount }}</span>
+              </div>
+            </div>
           </div>
+
+          <a
+            :href="cart.checkoutUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="pill-button-primary block w-full text-center"
+          >
+            Til checkout
+          </a>
+
+          <NuxtLink to="/collections/keramik" class="pill-button-secondary block w-full text-center">
+            Fortsæt shopping
+          </NuxtLink>
+
+          <p class="text-xs text-stone-500">
+            Checkout håndteres af Shopify. Du bliver omdirigeret til sikker betaling.
+          </p>
         </div>
-
-        <button
-          class="mt-8 w-full rounded-full bg-stone-900 px-6 py-4 text-sm text-white disabled:opacity-50"
-          :disabled="loading || !cart.lines.length"
-          @click="checkout"
-        >
-          {{ loading ? 'Forbereder...' : 'Gå til checkout' }}
-        </button>
-
-        <p class="mt-4 text-sm leading-6 text-stone-500">
-          Checkout bliver sendt videre til Shopify, så betaling, moms og ordreflow forbliver simpelt.
-        </p>
-      </aside>
+      </div>
     </div>
   </div>
 </template>
