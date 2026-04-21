@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { cart, loading, removeFromCart, updateQuantity, refreshCart } = useCart()
+const { cart, loading, removeLine, updateLine, refreshCart } = useCart()
 
 onMounted(() => {
   refreshCart()
@@ -7,9 +7,9 @@ onMounted(() => {
 
 async function handleQuantityChange(lineId: string, newQuantity: number) {
   if (newQuantity <= 0) {
-    await removeFromCart(lineId)
+    await removeLine(lineId)
   } else {
-    await updateQuantity(lineId, newQuantity)
+    await updateLine(lineId, newQuantity)
   }
 }
 </script>
@@ -43,7 +43,7 @@ async function handleQuantityChange(lineId: string, newQuantity: number) {
                   <p class="mt-1 text-sm text-stone-500">{{ line.price }}</p>
                 </div>
                 <button
-                  @click="removeFromCart(line.id)"
+                  @click="removeLine(line.id)"
                   class="text-xs font-semibold uppercase tracking-[0.15em] text-stone-400 transition hover:text-stone-900"
                 >
                   Fjern
