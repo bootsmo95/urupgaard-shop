@@ -30,7 +30,7 @@ Nuxt 4 starter til en simpel Shopify-baseret gårdbutik med fokus på keramik, s
    ```
 3. Udfyld:
    - `SHOPIFY_STORE_DOMAIN`
-   - `SHOPIFY_STOREFRONT_TOKEN`
+   - `SHOPIFY_STOREFRONT_ACCESS_TOKEN`
 4. Start projektet
    ```bash
    npm run dev
@@ -48,7 +48,7 @@ Repoet er gjort klar til import i Netlify.
 ### Environment variables
 ```env
 SHOPIFY_STORE_DOMAIN=urupgaard-butik.myshopify.com
-SHOPIFY_STOREFRONT_TOKEN=your-public-storefront-token
+SHOPIFY_STOREFRONT_ACCESS_TOKEN=your-public-storefront-token
 NUXT_PUBLIC_SITE_URL=https://your-netlify-site.netlify.app
 CONTACT_NOTIFICATION_WEBHOOK_URL=https://your-webhook.example.com/contact
 ```
