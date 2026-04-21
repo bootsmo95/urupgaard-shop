@@ -14,7 +14,7 @@ const collections = computed(() => collectionsData.value?.collections ?? [])
       </p>
     </div>
 
-    <ProductSearch />
+    <!-- Search moved to header modal -->
 
     <section class="mt-14">
       <div class="mb-6 flex items-end justify-between gap-4">

@@ -1,31 +1,11 @@
 <script setup lang="ts">
 const route = useRoute()
 const handle = computed(() => String(route.params.collection || 'collection'))
+
 const { data, pending, error } = await useFetch(() => `/api/collections/${handle.value}`)
 
-const collection = computed(() => {
-  const col = data.value?.collection
-  console.log('Collection computed:', col)
-  return col
-})
-
-const products = computed(() => {
-  const prods = data.value?.products ?? []
-  console.log('Products computed:', prods, 'length:', prods.length)
-  return prods
-})
-
-onMounted(() => {
-  console.log('Collection page mounted')
-  console.log('Handle:', handle.value)
-  console.log('Data:', data.value)
-  console.log('Collection:', collection.value)
-  console.log('Products:', products.value)
-})
-
-watch(data, (newData) => {
-  console.log('Data updated:', newData)
-})
+const collection = computed(() => data.value?.collection)
+const products = computed(() => data.value?.products ?? [])
 </script>
 
 <template>

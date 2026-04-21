@@ -1,5 +1,5 @@
-<script setup>
-// Footer will auto-fetch shop data
+<script setup lang="ts">
+const searchOpen = ref(false)
 </script>
 
 <template>
@@ -21,6 +21,15 @@
           <NuxtLink to="/contact" class="text-sm text-stone-700 transition hover:text-stone-900">
             Kontakt
           </NuxtLink>
+
+          <button
+            type="button"
+            class="text-sm text-stone-700 transition hover:text-stone-900"
+            @click="searchOpen = true"
+          >
+            Søg
+          </button>
+
           <SiteHeaderCart />
         </div>
       </div>
@@ -31,5 +40,7 @@
     </main>
 
     <SiteFooter />
+
+    <SiteSearchModal :open="searchOpen" @close="searchOpen = false" />
   </div>
 </template>

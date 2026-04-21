@@ -21,10 +21,20 @@ interface SearchResponse {
 }
 
 const search = ref('')
+const debouncedSearch = ref('')
 const selectedTags = ref<string[]>([])
 
+// Simple debounce (no external deps)
+let debounceTimer: ReturnType<typeof setTimeout> | undefined
+watch(search, (value) => {
+  if (debounceTimer) clearTimeout(debounceTimer)
+  debounceTimer = setTimeout(() => {
+    debouncedSearch.value = value
+  }, 250)
+}, { flush: 'post' })
+
 const params = computed(() => ({
-  q: search.value || undefined,
+  q: debouncedSearch.value || undefined,
   tags: selectedTags.value.length ? selectedTags.value.join(',') : undefined
 }))
 
@@ -53,6 +63,7 @@ function toggleTag(tag: string) {
 
 function resetFilters() {
   search.value = ''
+  debouncedSearch.value = ''
   selectedTags.value = []
 }
 
