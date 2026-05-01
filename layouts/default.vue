@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const searchOpen = ref(false)
+const mobileMenuOpen = ref(false)
 </script>
 
 <template>
@@ -70,8 +71,10 @@ const searchOpen = ref(false)
             font-size: 14px;
           "
         >
+          <!-- Desktop actions -->
           <button
             type="button"
+            class="urup-desktop-only"
             style="color: inherit; background: transparent; border: 0; padding: 0; cursor: pointer"
             @click="searchOpen = true"
           >
@@ -79,6 +82,7 @@ const searchOpen = ref(false)
           </button>
 
           <div
+            class="urup-desktop-only"
             style="
               display: inline-flex;
               align-items: center;
@@ -90,9 +94,51 @@ const searchOpen = ref(false)
           >
             <SiteHeaderCart />
           </div>
+
+          <!-- Mobile actions: burger + search icon + cart icon -->
+          <button
+            type="button"
+            class="urup-mobile-only"
+            aria-label="Menu"
+            style="width: 40px; height: 40px; border-radius: 999px; border: 1px solid rgba(28,26,23,0.18); background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center"
+            @click="mobileMenuOpen = !mobileMenuOpen"
+          >
+            ☰
+          </button>
+
+          <button
+            type="button"
+            class="urup-mobile-only"
+            aria-label="Søg"
+            style="width: 40px; height: 40px; border-radius: 999px; border: 1px solid rgba(28,26,23,0.18); background: transparent; cursor: pointer; display: inline-flex; align-items: center; justify-content: center"
+            @click="searchOpen = true"
+          >
+            ⌕
+          </button>
+
+          <NuxtLink
+            to="/cart"
+            class="urup-mobile-only"
+            aria-label="Kurv"
+            style="height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid rgba(28,26,23,0.18); color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 8px"
+          >
+            <span aria-hidden="true">🛒</span>
+            <SiteHeaderCart />
+          </NuxtLink>
         </div>
       </div>
     </header>
+
+    <!-- Mobile menu panel -->
+    <div v-if="mobileMenuOpen" class="urup-mobile-only" style="border-bottom: 1px solid rgba(28,26,23,0.12); background: rgba(246,243,238,0.98); backdrop-filter: blur(12px)">
+      <div style="max-width: 1440px; margin: 0 auto; padding: 12px 54px 18px; display: grid; gap: 12px; font-family: var(--urup-body, Inter, system-ui)">
+        <NuxtLink to="/shop" style="text-decoration: none; color: inherit" @click="mobileMenuOpen = false">Butik</NuxtLink>
+        <NuxtLink to="/drops" style="text-decoration: none; color: inherit" @click="mobileMenuOpen = false">Drops</NuxtLink>
+        <NuxtLink to="/besoeg" style="text-decoration: none; color: inherit" @click="mobileMenuOpen = false">Besøg</NuxtLink>
+        <NuxtLink to="/about" style="text-decoration: none; color: inherit" @click="mobileMenuOpen = false">Om</NuxtLink>
+        <NuxtLink to="/contact" style="text-decoration: none; color: inherit" @click="mobileMenuOpen = false">Kontakt</NuxtLink>
+      </div>
+    </div>
 
     <main class="flex-1">
       <slot />
@@ -103,3 +149,17 @@ const searchOpen = ref(false)
     <SiteSearchModal :open="searchOpen" @close="searchOpen = false" />
   </div>
 </template>
+
+<style scoped>
+@media (min-width: 641px) {
+  .urup-mobile-only {
+    display: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .urup-desktop-only {
+    display: none !important;
+  }
+}
+</style>
