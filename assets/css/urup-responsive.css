@@ -1,0 +1,232 @@
+/* Imported from Claude prototype: responsive.css */
+
+:root {
+ --urup-pad-x: 54px;
+ --urup-pad-y-section: 120px;
+}
+
+/* ── Tablet (≤1024px) ────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+ :root {
+ --urup-pad-x: 32px;
+ --urup-pad-y-section: 80px;
+ }
+
+ /* Reduce horizontal padding on every section */
+ .urup-section,
+ body section[style*="padding: 120px 54px"],
+ body section[style*="padding: 100px 54px"],
+ body section[style*="padding: 140px 54px"],
+ body section[style*="padding: 60px 54px"],
+ body section[style*="padding: 64px 54px"],
+ body section[style*="padding: 0 54px"],
+ body header > div,
+ body footer {
+ padding-left: 32px !important;
+ padding-right: 32px !important;
+ }
+
+ /* Header: drop the centred nav onto its own row */
+ .urup-header-grid {
+ grid-template-columns: 1fr auto !important;
+ gap: 16px !important;
+ }
+ .urup-header-nav {
+ grid-column: 1 / -1 !important;
+ overflow-x: auto !important;
+ -webkit-overflow-scrolling: touch !important;
+ scrollbar-width: none !important;
+ padding-bottom: 4px !important;
+ gap: 20px !important;
+ flex-wrap: nowrap !important;
+ white-space: nowrap !important;
+ }
+ .urup-header-nav > a { flex-shrink: 0 !important; white-space: nowrap !important; }
+ .urup-header-nav::-webkit-scrollbar { display: none; }
+
+ /* All "1fr 1fr" / "1.x fr 1fr" two-col splits collapse to one */
+ .urup-split-2 { grid-template-columns: 1fr !important; gap: 48px !important; }
+
+ /* Three-col → two-col */
+ .urup-grid-3 { grid-template-columns: repeat(2, 1fr) !important; }
+
+ /* Four-col → two-col */
+ .urup-grid-4 { grid-template-columns: repeat(2, 1fr) !important; gap: 24px !important; }
+
+ /* Six-col asymmetric category grid → 2-up */
+ .urup-grid-cat { grid-template-columns: repeat(2, 1fr) !important; }
+ .urup-grid-cat > a { grid-column: span 1 !important; }
+
+ /* Hero filmic: shorter, repositioned content */
+ .urup-hero-filmic { height: auto !important; min-height: 580px !important; }
+ .urup-hero-filmic-inner {
+ padding: 80px 32px !important;
+ gap: 60px !important;
+ }
+ .urup-hero-filmic-bottom {
+ flex-direction: column !important;
+ align-items: flex-start !important;
+ gap: 32px !important;
+ }
+
+ /* Page-header big title side-by-side intro stacks */
+ .urup-page-head { grid-template-columns: 1fr !important; gap: 32px !important; }
+
+ /* Product detail: gallery + sticky panel stack */
+ .urup-product-detail { grid-template-columns: 1fr !important; gap: 48px !important; }
+ .urup-product-detail .urup-product-panel { position: static !important; }
+
+ /* Visit info side-by-side stacks */
+ .urup-visit-info { grid-template-columns: 1fr !important; gap: 48px !important; }
+ .urup-visit-info > div:first-child { position: static !important; }
+
+ /* Shop filters wrap & sticky offset slightly less */
+ .urup-shop-filters { padding: 16px 32px !important; }
+
+ /* Timeline: compress row */
+ .urup-timeline-row { grid-template-columns: 80px 1fr !important; gap: 16px !important; }
+ .urup-timeline-row > div:nth-child(3) {
+ grid-column: 1 / -1 !important;
+ margin-top: 8px !important;
+ }
+
+ /* Press kit row */
+ .urup-press-row { grid-template-columns: 1fr !important; gap: 8px !important; }
+
+ /* Series block big rows */
+ .urup-series-row { grid-template-columns: 1fr !important; gap: 12px !important; padding: 24px 0 !important; }
+ .urup-series-row > span:last-child { text-align: left !important; }
+
+ /* Footer */
+ .urup-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 40px !important; }
+ .urup-footer-grid > div:first-child { grid-column: 1 / -1 !important; }
+ .urup-footer-bottom {
+ flex-direction: column !important;
+ gap: 16px !important;
+ align-items: flex-start !important;
+ text-align: left !important;
+ }
+}
+
+/* ── Mobile (≤640px) ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+ :root {
+ --urup-pad-x: 20px;
+ --urup-pad-y-section: 64px;
+ }
+
+ body section,
+ body header > div,
+ body footer {
+ padding-left: 20px !important;
+ padding-right: 20px !important;
+ }
+ body section[style*="padding: 120px"] { padding-top: 64px !important; padding-bottom: 64px !important; }
+ body section[style*="padding: 100px"] { padding-top: 56px !important; padding-bottom: 56px !important; }
+ body section[style*="padding: 140px"] { padding-top: 72px !important; padding-bottom: 72px !important; }
+ body section[style*="padding: 80px 54px 120px"] { padding: 56px 20px 80px !important; }
+ body section[style*="padding: 64px 54px 120px"] { padding: 40px 20px 64px !important; }
+ body section[style*="padding: 60px 54px 100px"] { padding: 32px 20px 64px !important; }
+ body section[style*="padding: 60px 54px 80px"] { padding: 32px 20px 48px !important; }
+
+ /* Header: make logo + cart fit, hide search/account */
+ .urup-header-grid { padding-top: 14px !important; padding-bottom: 14px !important; }
+ .urup-header-actions a:not(:last-child) { display: none !important; }
+
+ /* All multi-col grids → single col */
+ .urup-grid-3,
+ .urup-grid-4,
+ .urup-grid-cat { grid-template-columns: 1fr !important; gap: 32px !important; }
+ .urup-grid-cat > a { grid-column: span 1 !important; }
+ .urup-grid-cat > a > div:first-child {
+ aspect-ratio: 4/3 !important;
+ }
+
+ /* Three-up product cards: keep 2-col on mobile for density */
+ .urup-shop-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; row-gap: 32px !important; }
+ .urup-shop-grid .urup-product-card-title { font-size: 15px !important; }
+ .urup-shop-grid .urup-product-card-price { font-size: 13px !important; }
+
+ /* Hero filmic: button row stack */
+ .urup-hero-filmic-inner { padding: 56px 20px !important; }
+ .urup-hero-filmic-buttons { flex-direction: column !important; align-items: stretch !important; width: 100% !important; }
+ .urup-hero-filmic-buttons button { width: 100% !important; }
+
+ /* Editorial hero: stack image first or last */
+ .urup-hero-editorial { padding: 32px 20px 64px !important; gap: 32px !important; }
+ .urup-hero-editorial h1 { font-size: clamp(40px, 11vw, 64px) !important; line-height: 0.98 !important; }
+ .urup-hero-editorial-buttons { flex-direction: column !important; align-items: stretch !important; }
+ .urup-hero-editorial-buttons button,
+ .urup-hero-editorial-buttons a { width: 100% !important; justify-content: center !important; }
+
+ /* Marquee — smaller text & padding */
+ .urup-marquee { padding: 14px 0 !important; font-size: 11px !important; }
+
+ /* Section heads */
+ .urup-section-head {
+ flex-direction: column !important;
+ align-items: flex-start !important;
+ gap: 20px !important;
+ margin-bottom: 32px !important;
+ }
+
+ /* Story stats 3-col → flex stack two-up */
+ .urup-story-stats { grid-template-columns: repeat(3, 1fr) !important; gap: 12px !important; }
+ .urup-story-stats > div { font-size: 13px !important; }
+
+ /* Process steps */
+ .urup-process-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+
+ /* Workshop split → stack */
+ .urup-workshop-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+ .urup-workshop-grid > div { padding: 24px !important; }
+ .urup-workshop-grid h3 { font-size: 32px !important; }
+
+ /* Product detail */
+ .urup-product-gallery { grid-template-columns: 1fr !important; }
+ .urup-product-gallery > div:first-child {
+ flex-direction: row !important;
+ overflow-x: auto !important;
+ order: 2;
+ }
+ .urup-product-gallery > div:first-child button {
+ flex: 0 0 64px !important;
+ height: 64px !important;
+ width: 64px !important;
+ }
+ .urup-product-spec { grid-template-columns: 1fr !important; }
+ .urup-product-spec > div { border-right: none !important; border-bottom: 1px solid var(--urup-border, rgba(0,0,0,0.12)) !important; }
+ .urup-product-spec > div:last-child { border-bottom: none !important; }
+
+ /* Visit info row */
+ .urup-visit-row { grid-template-columns: 1fr !important; gap: 12px !important; padding: 28px 0 !important; }
+
+ /* Visit gallery → 2 cols on mobile */
+ .urup-visit-gallery { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+
+ /* Visit map shorter */
+ .urup-visit-map > div { aspect-ratio: 4/3 !important; }
+
+ /* Visit contact form stacks */
+ .urup-visit-contact { grid-template-columns: 1fr !important; gap: 48px !important; }
+
+ /* Footer */
+ .urup-footer-grid { grid-template-columns: 1fr !important; gap: 32px !important; padding-bottom: 48px !important; }
+ .urup-footer-grid > div:first-child { grid-column: auto !important; }
+
+ /* Page header big title */
+ .urup-page-head h1 { font-size: 44px !important; line-height: 1.02 !important; }
+
+ /* About hero overlay */
+ .urup-about-hero { aspect-ratio: 4/5 !important; }
+ .urup-about-hero-text { left: 24px !important; right: 24px !important; bottom: 32px !important; }
+
+ /* Values 4-col → 1-col */
+ .urup-values-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+
+ /* Tweaks panel — make sure it doesn't take full screen */
+ .twk-panel {
+ width: calc(100vw - 32px) !important;
+ max-width: 320px !important;
+ }
+}
