@@ -157,7 +157,7 @@ onBeforeUnmount(() => {
               </details>
             </div>
 
-            <ProductReviews :handle="product.handle" />
+            <!-- Ratings/reviews hidden for now -->
           </div>
         </div>
       </div>
