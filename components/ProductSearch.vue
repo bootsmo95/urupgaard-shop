@@ -45,7 +45,11 @@ const { data, pending, error } = await useFetch<SearchResponse>('/api/products/s
     products: [],
     availableTags: []
   }),
-  watch: [params]
+  watch: [params],
+  // Avoid hydration/layout jank + hammering API when modal opens/closes
+  dedupe: 'defer',
+  lazy: true,
+  server: false
 })
 
 const products = computed(() => data.value?.products ?? [])

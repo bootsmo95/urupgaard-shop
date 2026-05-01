@@ -26,27 +26,27 @@ onBeforeUnmount(() => {
 
 <template>
   <Teleport to="body">
-    <div v-if="open" class="fixed inset-0 z-50">
+    <div v-if="open" class="fixed inset-0 z-50" style="background: rgba(246,243,238,0.96); backdrop-filter: blur(14px)">
       <button
-        class="absolute inset-0 bg-black/40 backdrop-blur-sm"
+        class="absolute inset-0"
         type="button"
         aria-label="Luk søgning"
         @click="emit('close')"
       />
 
-      <div class="relative mx-auto flex h-full w-full max-w-5xl flex-col px-6 py-10">
-        <div class="mb-6 flex items-center justify-between">
-          <p class="editorial-kicker text-white/80">Søg</p>
+      <div style="position: relative; max-width: 1440px; margin: 0 auto; padding: 28px 54px 60px; height: 100%; overflow: auto">
+        <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid rgba(28,26,23,0.12)">
+          <div style="font-family: var(--urup-body, Inter, system-ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--urup-textMuted, #857c70)">Søg</div>
           <button
             type="button"
-            class="rounded-full bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white hover:bg-white/15"
+            style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(28,26,23,0.18); background: transparent; color: var(--urup-text, #1c1a17); font-family: var(--urup-body, Inter, system-ui); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer"
             @click="emit('close')"
           >
             Luk
           </button>
         </div>
 
-        <div class="card flex-1 overflow-auto p-6 sm:p-8">
+        <div style="padding-top: 28px">
           <ProductSearch />
         </div>
       </div>
