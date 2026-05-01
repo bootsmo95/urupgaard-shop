@@ -1,6 +1,9 @@
 <script setup lang="ts">
 const { data } = await useFetch('/api/products')
 const products = computed(() => data.value?.products ?? [])
+
+const { data: collectionsData } = await useFetch('/api/collections')
+const collections = computed(() => collectionsData.value?.collections ?? [])
 </script>
 
 <template>
@@ -141,18 +144,18 @@ const products = computed(() => data.value?.products ?? [])
 
         <div class="urup-grid-cat" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px">
           <NuxtLink
-            v-for="(p, i) in products.slice(0, 6)"
-            :key="p.id"
-            :to="p.collectionHandle ? `/shop/${p.collectionHandle}` : '/shop'"
+            v-for="(c, i) in collections.slice(0, 6)"
+            :key="c.id"
+            :to="`/shop/${c.handle}`"
             style="text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 14px"
             :style="{ gridColumn: (i === 0 || i === 3) ? 'span 2' : 'span 1' }"
           >
             <div :style="{ aspectRatio: (i === 0 || i === 3) ? '2/1.4' : '1/1', background: '#ede8df', overflow: 'hidden' }">
-              <img v-if="p.image" :src="p.image" :alt="p.title" style="width: 100%; height: 100%; object-fit: cover" />
+              <img v-if="c.image" :src="c.image" :alt="c.title" style="width: 100%; height: 100%; object-fit: cover" />
             </div>
             <div style="display: flex; justify-content: space-between; align-items: baseline">
-              <span style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-size: 20px; font-weight: 500; color: var(--urup-text, #1c1a17)">{{ p.collectionTitle || 'Kollektion' }}</span>
-              <span style="font-family: var(--urup-body, Inter, system-ui); font-size: 12px; color: var(--urup-textMuted, #857c70)">{{ i + 6 }}</span>
+              <span style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-size: 20px; font-weight: 500; color: var(--urup-text, #1c1a17)">{{ c.title }}</span>
+              <span style="font-family: var(--urup-body, Inter, system-ui); font-size: 12px; color: var(--urup-textMuted, #857c70)">{{ c.productsCount ?? '' }}</span>
             </div>
           </NuxtLink>
         </div>
