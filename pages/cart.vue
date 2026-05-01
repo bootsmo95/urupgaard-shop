@@ -15,108 +15,140 @@ async function handleQuantityChange(lineId: string, newQuantity: number) {
 </script>
 
 <template>
-  <div class="container-shell py-8 lg:py-10">
-    <div class="mb-10">
-      <p class="editorial-kicker">Kurv</p>
-      <h1 class="mt-3 text-6xl leading-none text-stone-900">Dine varer</h1>
-    </div>
+  <div style="background: var(--urup-pageBg, #f6f3ee); color: var(--urup-text, #1c1a17); min-height: 100vh">
+    <section style="background: var(--urup-pageBg, #f6f3ee); padding: 60px 54px 80px; border-bottom: 1px solid rgba(28,26,23,0.12)">
+      <div style="max-width: 1440px; margin: 0 auto">
+        <div style="display: flex; gap: 8px; font-family: var(--urup-body, Inter, system-ui); font-size: 13px; color: var(--urup-textMuted, #857c70); margin-bottom: 32px">
+          <NuxtLink to="/" style="color: inherit; text-decoration: none">Forside</NuxtLink>
+          <span style="opacity: 0.5">/</span>
+          <span style="color: var(--urup-text, #1c1a17)">Kurv</span>
+        </div>
 
-    <div v-if="cart.lines.length === 0" class="rounded-3xl border border-black/8 bg-stone-50/50 p-12 text-center">
-      <p class="text-lg text-stone-600">Din kurv er tom</p>
-      <NuxtLink to="/collections/keramik" class="pill-button-primary mt-6 inline-block">Fortsæt med at shoppe</NuxtLink>
-    </div>
-
-    <div v-else class="grid gap-10 lg:grid-cols-[1fr_380px]">
-      <div class="space-y-4">
-        <article v-for="line in cart.lines" :key="line.id" class="card overflow-hidden p-6 md:p-8">
-          <div class="flex gap-6">
-            <div class="w-24 flex-shrink-0">
-              <div class="image-shell aspect-[4/5] overflow-hidden rounded-2xl">
-                <img v-if="line.image" :src="line.image" :alt="line.title" class="h-full w-full object-cover" />
-              </div>
-            </div>
-
-            <div class="flex-1">
-              <div class="flex items-start justify-between">
-                <div>
-                  <h3 class="text-2xl text-stone-900">{{ line.title }}</h3>
-                  <p class="mt-1 text-sm text-stone-500">{{ line.price }}</p>
-                </div>
-                <button
-                  @click="removeLine(line.id)"
-                  class="text-xs font-semibold uppercase tracking-[0.15em] text-stone-400 transition hover:text-stone-900"
-                >
-                  Fjern
-                </button>
-              </div>
-
-              <div class="mt-6 flex items-center gap-3">
-                <button
-                  @click="handleQuantityChange(line.id, line.quantity - 1)"
-                  :disabled="loading"
-                  class="flex h-9 w-9 items-center justify-center rounded-full border border-black/8 text-stone-600 transition hover:bg-stone-100 disabled:opacity-50"
-                >
-                  −
-                </button>
-                <span class="w-8 text-center font-semibold text-stone-900">{{ line.quantity }}</span>
-                <button
-                  @click="handleQuantityChange(line.id, line.quantity + 1)"
-                  :disabled="loading"
-                  class="flex h-9 w-9 items-center justify-center rounded-full border border-black/8 text-stone-600 transition hover:bg-stone-100 disabled:opacity-50"
-                >
-                  +
-                </button>
-              </div>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <div class="lg:sticky lg:top-20 lg:h-fit">
-        <div class="card space-y-6 p-8">
+        <div class="urup-page-head urup-split-2" style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; align-items: end">
           <div>
-            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-stone-500">Oversigt</p>
-            <div class="mt-6 space-y-3 text-sm">
-              <div class="flex items-center justify-between text-stone-600">
-                <span>Subtotal</span>
-                <span>{{ cart.totalAmount }}</span>
-              </div>
-              <div class="flex items-center justify-between text-stone-600">
-                <span>Levering</span>
-                <span>Beregnes ved checkout</span>
-              </div>
-              <div class="flex items-center justify-between text-stone-600">
-                <span>Moms</span>
-                <span>Inkluderet</span>
-              </div>
+            <div style="font-family: var(--urup-body, Inter, system-ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--urup-textMuted, #857c70); margin-bottom: 24px">
+              {{ cart.lines.length }} {{ cart.lines.length === 1 ? 'vare' : 'varer' }}
             </div>
-
-            <div class="mt-6 border-t border-black/8 pt-6">
-              <div class="flex items-center justify-between text-lg font-semibold text-stone-900">
-                <span>I alt</span>
-                <span>{{ cart.totalAmount }}</span>
-              </div>
-            </div>
+            <h1 style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-weight: 500; font-style: italic; font-size: clamp(44px, 6vw, 96px); line-height: 0.95; letter-spacing: -0.015em; color: var(--urup-text, #1c1a17); margin: 0">
+              Din kurv
+            </h1>
           </div>
-
-          <a
-            :href="cart.checkoutUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="pill-button-primary block w-full text-center"
-          >
-            Til checkout
-          </a>
-
-          <NuxtLink to="/collections/keramik" class="pill-button-secondary block w-full text-center">
-            Fortsæt shopping
-          </NuxtLink>
-
-          <p class="text-xs text-stone-500">
+          <p style="font-family: var(--urup-body, Inter, system-ui); font-size: 18px; line-height: 1.55; color: var(--urup-textMuted, #857c70); margin: 0; padding-bottom: 8px; max-width: 420px">
             Checkout håndteres af Shopify. Du bliver omdirigeret til sikker betaling.
           </p>
         </div>
       </div>
-    </div>
+    </section>
+
+    <section style="background: var(--urup-pageBg, #f6f3ee); padding: 64px 54px 120px">
+      <div style="max-width: 1440px; margin: 0 auto">
+        <div v-if="cart.lines.length === 0" style="padding: 80px 0; text-align: center; font-family: var(--urup-body, Inter, system-ui); color: var(--urup-textMuted, #857c70)">
+          <div style="font-size: 22px; color: var(--urup-text, #1c1a17)">Din kurv er tom</div>
+          <NuxtLink
+            to="/shop"
+            style="margin-top: 24px; height: 52px; padding: 0 28px; border-radius: 999px; background: var(--urup-text, #1c1a17); color: var(--urup-pageBg, #f6f3ee); font-family: var(--urup-body, Inter, system-ui); font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center"
+          >
+            Fortsæt med at shoppe →
+          </NuxtLink>
+        </div>
+
+        <div v-else class="urup-split-2" style="display: grid; grid-template-columns: 1fr 380px; gap: 64px; align-items: start">
+          <div style="display: flex; flex-direction: column; gap: 18px">
+            <article
+              v-for="line in cart.lines"
+              :key="line.id"
+              style="border-top: 1px solid rgba(28,26,23,0.12); padding-top: 24px"
+            >
+              <div style="display: flex; gap: 18px">
+                <div style="width: 96px; flex-shrink: 0">
+                  <div style="background: #ede8df; aspect-ratio: 4/5; overflow: hidden">
+                    <img v-if="line.image" :src="line.image" :alt="line.title" style="width: 100%; height: 100%; object-fit: cover" />
+                  </div>
+                </div>
+
+                <div style="flex: 1; display: flex; flex-direction: column; gap: 10px">
+                  <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 14px">
+                    <div>
+                      <div style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-weight: 500; font-size: 22px; letter-spacing: -0.015em; line-height: 1.2">{{ line.title }}</div>
+                      <div style="margin-top: 6px; font-family: var(--urup-body, Inter, system-ui); font-size: 14px; color: var(--urup-textMuted, #857c70)">{{ line.price }}</div>
+                    </div>
+                    <button
+                      type="button"
+                      :disabled="loading"
+                      @click="removeLine(line.id)"
+                      style="border: 0; background: transparent; padding: 0; cursor: pointer; font-family: var(--urup-body, Inter, system-ui); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--urup-textMuted, #857c70)"
+                    >
+                      Fjern
+                    </button>
+                  </div>
+
+                  <div style="display: flex; align-items: center; gap: 12px; margin-top: 10px">
+                    <button
+                      type="button"
+                      :disabled="loading"
+                      @click="handleQuantityChange(line.id, line.quantity - 1)"
+                      style="width: 40px; height: 40px; border-radius: 999px; border: 1px solid rgba(28,26,23,0.18); background: transparent; cursor: pointer"
+                    >
+                      −
+                    </button>
+                    <span style="width: 32px; text-align: center; font-family: var(--urup-body, Inter, system-ui); font-size: 16px">{{ line.quantity }}</span>
+                    <button
+                      type="button"
+                      :disabled="loading"
+                      @click="handleQuantityChange(line.id, line.quantity + 1)"
+                      style="width: 40px; height: 40px; border-radius: 999px; border: 1px solid rgba(28,26,23,0.18); background: transparent; cursor: pointer"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <aside style="position: sticky; top: 100px">
+            <div style="border: 1px solid rgba(28,26,23,0.12); border-radius: 18px; padding: 22px; background: rgba(255,255,255,0.55)">
+              <div style="font-family: var(--urup-body, Inter, system-ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--urup-textMuted, #857c70); margin-bottom: 18px">Oversigt</div>
+
+              <div style="display: grid; gap: 10px; font-family: var(--urup-body, Inter, system-ui); font-size: 14px; color: var(--urup-textMuted, #857c70)">
+                <div style="display: flex; justify-content: space-between">
+                  <span>Subtotal</span>
+                  <span style="color: var(--urup-text, #1c1a17)">{{ cart.totalAmount }}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between">
+                  <span>Levering</span>
+                  <span>Beregnes ved checkout</span>
+                </div>
+                <div style="display: flex; justify-content: space-between">
+                  <span>Moms</span>
+                  <span>Inkluderet</span>
+                </div>
+              </div>
+
+              <div style="margin-top: 18px; padding-top: 18px; border-top: 1px solid rgba(28,26,23,0.12); display: flex; justify-content: space-between; font-family: var(--urup-body, Inter, system-ui); font-size: 16px">
+                <span>I alt</span>
+                <span style="color: var(--urup-text, #1c1a17)">{{ cart.totalAmount }}</span>
+              </div>
+
+              <a
+                :href="cart.checkoutUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="margin-top: 18px; height: 56px; border-radius: 999px; background: var(--urup-text, #1c1a17); color: var(--urup-pageBg, #f6f3ee); display: inline-flex; align-items: center; justify-content: center; width: 100%; text-decoration: none; font-family: var(--urup-body, Inter, system-ui); font-size: 15px; font-weight: 500"
+              >
+                Til checkout →
+              </a>
+
+              <NuxtLink
+                to="/shop"
+                style="margin-top: 12px; height: 56px; border-radius: 999px; border: 1px solid var(--urup-text, #1c1a17); background: transparent; color: var(--urup-text, #1c1a17); display: inline-flex; align-items: center; justify-content: center; width: 100%; text-decoration: none; font-family: var(--urup-body, Inter, system-ui); font-size: 15px; font-weight: 500"
+              >
+                Fortsæt shopping
+              </NuxtLink>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
