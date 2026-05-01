@@ -16,7 +16,7 @@ async function handleQuantityChange(lineId: string, newQuantity: number) {
 
 <template>
   <div style="background: var(--urup-pageBg, #f6f3ee); color: var(--urup-text, #1c1a17); min-height: 100vh">
-    <section style="background: var(--urup-pageBg, #f6f3ee); padding: 60px 54px 80px; border-bottom: 1px solid rgba(28,26,23,0.12)">
+    <section class="urup-page-header" style="background: var(--urup-pageBg, #f6f3ee); padding: 60px 54px 80px; border-bottom: 1px solid rgba(28,26,23,0.12)">
       <div style="max-width: 1440px; margin: 0 auto">
         <div style="display: flex; gap: 8px; font-family: var(--urup-body, Inter, system-ui); font-size: 13px; color: var(--urup-textMuted, #857c70); margin-bottom: 32px">
           <NuxtLink to="/" style="color: inherit; text-decoration: none">Forside</NuxtLink>
@@ -152,3 +152,11 @@ async function handleQuantityChange(lineId: string, newQuantity: number) {
     </section>
   </div>
 </template>
+
+<style scoped>
+@media (max-width: 640px) {
+  .urup-page-header {
+    border-bottom: none !important;
+  }
+}
+</style>
