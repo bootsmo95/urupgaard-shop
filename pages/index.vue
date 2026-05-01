@@ -57,7 +57,37 @@ const products = computed(() => data.value?.products ?? [])
       </div>
     </section>
 
-    <!-- New drops (uses real Shopify products) -->
+    <!-- Marquee (carousel-ish strip) -->
+    <div class="urup-marquee" style="background: var(--urup-text, #1c1a17); color: var(--urup-pageBg, #f6f3ee); padding: 20px 0; overflow: hidden">
+      <div class="urup-marquee-track" style="display: flex; width: max-content">
+        <div style="display: flex; gap: 56px; padding-right: 56px; font-family: var(--urup-body, Inter, system-ui); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; flex-shrink: 0">
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Drejet i Urup <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Hver vase er unik <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Fyret én ad gangen <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Lokal afhentning <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Kød fra egne dyr <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Workshops året rundt <span style="opacity: 0.4">✦</span></span>
+        </div>
+        <div style="display: flex; gap: 56px; padding-right: 56px; font-family: var(--urup-body, Inter, system-ui); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; flex-shrink: 0">
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Drejet i Urup <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Hver vase er unik <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Fyret én ad gangen <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Lokal afhentning <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Kød fra egne dyr <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Workshops året rundt <span style="opacity: 0.4">✦</span></span>
+        </div>
+        <div style="display: flex; gap: 56px; padding-right: 56px; font-family: var(--urup-body, Inter, system-ui); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; flex-shrink: 0">
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Drejet i Urup <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Hver vase er unik <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Fyret én ad gangen <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Lokal afhentning <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Kød fra egne dyr <span style="opacity: 0.4">✦</span></span>
+          <span style="display: inline-flex; align-items: center; gap: 56px; white-space: nowrap">Workshops året rundt <span style="opacity: 0.4">✦</span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- New drops (product list) -->
     <section style="background: var(--urup-pageBg, #f6f3ee); padding: 120px 54px">
       <div style="max-width: 1440px; margin: 0 auto">
         <div class="urup-section-head" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 56px">
@@ -95,5 +125,173 @@ const products = computed(() => data.value?.products ?? [])
         </div>
       </div>
     </section>
+
+    <!-- Categories (collection list placeholder) -->
+    <section style="background: #ffffff; padding: 120px 54px">
+      <div style="max-width: 1440px; margin: 0 auto">
+        <div class="urup-section-head" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 56px">
+          <div>
+            <div style="font-family: var(--urup-body, Inter, system-ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--urup-textMuted, #857c70); margin-bottom: 16px">Find rundt</div>
+            <h2 style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-weight: 500; font-size: clamp(36px, 4.4vw, 64px); line-height: 1; letter-spacing: -0.015em; color: var(--urup-text, #1c1a17); margin: 0; max-width: 760px">Hvad leder du efter?</h2>
+          </div>
+          <NuxtLink to="/shop" style="font-family: var(--urup-body, Inter, system-ui); font-size: 14px; color: var(--urup-text, #1c1a17); text-decoration: none; border-bottom: 1px solid rgba(28,26,23,0.12); padding-bottom: 4px; white-space: nowrap">
+            Hele butikken →
+          </NuxtLink>
+        </div>
+
+        <div class="urup-grid-cat" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px">
+          <NuxtLink
+            v-for="(p, i) in products.slice(0, 6)"
+            :key="p.id"
+            :to="p.collectionHandle ? `/shop/${p.collectionHandle}` : '/shop'"
+            style="text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 14px"
+            :style="{ gridColumn: (i === 0 || i === 3) ? 'span 2' : 'span 1' }"
+          >
+            <div :style="{ aspectRatio: (i === 0 || i === 3) ? '2/1.4' : '1/1', background: '#ede8df', overflow: 'hidden' }">
+              <img v-if="p.image" :src="p.image" :alt="p.title" style="width: 100%; height: 100%; object-fit: cover" />
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline">
+              <span style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-size: 20px; font-weight: 500; color: var(--urup-text, #1c1a17)">{{ p.collectionTitle || 'Kollektion' }}</span>
+              <span style="font-family: var(--urup-body, Inter, system-ui); font-size: 12px; color: var(--urup-textMuted, #857c70)">{{ i + 6 }}</span>
+            </div>
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
+
+    <!-- Story: Mød keramikeren -->
+    <section style="background: #1c1a17; color: #f6f3ee; padding: 140px 54px">
+      <div class="urup-split-2" style="max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center">
+        <div style="aspect-ratio: 4/5; overflow: hidden; background: #ede8df">
+          <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover; filter: saturate(0.9)" />
+        </div>
+        <div>
+          <div style="font-family: var(--urup-body, Inter, system-ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.6; margin-bottom: 24px">Mød keramikeren</div>
+          <h2 style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-weight: 500; font-style: italic; font-size: clamp(40px, 5vw, 80px); line-height: 0.98; letter-spacing: -0.015em; margin: 0">En kvinde, en drejeskive, en ovn</h2>
+          <p style="margin-top: 36px; font-family: var(--urup-body, Inter, system-ui); font-size: 18px; line-height: 1.6; opacity: 0.85; max-width: 480px">
+            Linda har drejet keramik på Urupgaard i over et årti. Hvert stykke begynder som en klump ler og ender på et bord.
+          </p>
+          <div class="urup-story-stats" style="margin-top: 48px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; padding-top: 36px; border-top: 1px solid rgba(245,237,224,0.18)">
+            <div>
+              <div style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-size: 32px; font-weight: 500; margin-bottom: 6px">12 år</div>
+              <div style="font-family: var(--urup-body, Inter, system-ui); font-size: 13px; opacity: 0.7; line-height: 1.5">med ler i hænderne</div>
+            </div>
+            <div>
+              <div style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-size: 32px; font-weight: 500; margin-bottom: 6px">1 ovn</div>
+              <div style="font-family: var(--urup-body, Inter, system-ui); font-size: 13px; opacity: 0.7; line-height: 1.5">tændt om tirsdagen</div>
+            </div>
+            <div>
+              <div style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-size: 32px; font-weight: 500; margin-bottom: 6px">~40 stk</div>
+              <div style="font-family: var(--urup-body, Inter, system-ui); font-size: 13px; opacity: 0.7; line-height: 1.5">pr. fyring</div>
+            </div>
+          </div>
+          <NuxtLink
+            to="/contact"
+            style="margin-top: 48px; height: 52px; padding: 0 28px; border-radius: 999px; background: #f6f3ee; color: #1c1a17; border: none; font-family: var(--urup-body, Inter, system-ui); font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center"
+          >
+            Læs om Linda →
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process: Værkstedet (3 steps) -->
+    <section style="background: var(--urup-pageBg, #f6f3ee); padding: 120px 54px">
+      <div style="max-width: 1440px; margin: 0 auto">
+        <div class="urup-section-head" style="display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; margin-bottom: 56px">
+          <div>
+            <div style="font-family: var(--urup-body, Inter, system-ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--urup-textMuted, #857c70); margin-bottom: 16px">Værkstedet</div>
+            <h2 style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-weight: 500; font-size: clamp(36px, 4.4vw, 64px); line-height: 1; letter-spacing: -0.015em; color: var(--urup-text, #1c1a17); margin: 0; max-width: 760px">Tre trin, ingen genveje</h2>
+          </div>
+          <NuxtLink to="/shop" style="font-family: var(--urup-body, Inter, system-ui); font-size: 14px; color: var(--urup-text, #1c1a17); text-decoration: none; border-bottom: 1px solid rgba(28,26,23,0.12); padding-bottom: 4px; white-space: nowrap">
+            Se hele processen →
+          </NuxtLink>
+        </div>
+
+        <div class="urup-process-grid urup-grid-3" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px">
+          <div style="display: flex; flex-direction: column; gap: 20px">
+            <div style="aspect-ratio: 5/4; overflow: hidden; background: #ede8df">
+              <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover" />
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 18px">
+              <span style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-size: 36px; font-weight: 500; color: #3a342c; opacity: 0.7">01</span>
+              <span style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-size: 26px; font-weight: 500; color: var(--urup-text, #1c1a17); letter-spacing: -0.015em">Ler fra Fyn</span>
+            </div>
+            <p style="font-family: var(--urup-body, Inter, system-ui); font-size: 15px; line-height: 1.6; color: var(--urup-textMuted, #857c70); margin: 0; max-width: 360px">Stentøjsler hentet hjem og lagret. Aldrig rent, vi blander selv.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 20px">
+            <div style="aspect-ratio: 5/4; overflow: hidden; background: #ede8df">
+              <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover" />
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 18px">
+              <span style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-size: 36px; font-weight: 500; color: #3a342c; opacity: 0.7">02</span>
+              <span style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-size: 26px; font-weight: 500; color: var(--urup-text, #1c1a17); letter-spacing: -0.015em">Drejes i hånden</span>
+            </div>
+            <p style="font-family: var(--urup-body, Inter, system-ui); font-size: 15px; line-height: 1.6; color: var(--urup-textMuted, #857c70); margin: 0; max-width: 360px">Hver vase er drejet i ét stykke. Små asymmetrier er kendetegn.</p>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 20px">
+            <div style="aspect-ratio: 5/4; overflow: hidden; background: #ede8df">
+              <img src="https://images.unsplash.com/photo-1610701596061-2ecf227e85b2?w=1200&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover" />
+            </div>
+            <div style="display: flex; align-items: baseline; gap: 18px">
+              <span style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-size: 36px; font-weight: 500; color: #3a342c; opacity: 0.7">03</span>
+              <span style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-size: 26px; font-weight: 500; color: var(--urup-text, #1c1a17); letter-spacing: -0.015em">Brændes 1240°</span>
+            </div>
+            <p style="font-family: var(--urup-body, Inter, system-ui); font-size: 15px; line-height: 1.6; color: var(--urup-textMuted, #857c70); margin: 0; max-width: 360px">Glasur strøget i bånd. Høj brænding giver det matte udtryk.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 50/50 image CTA -->
+    <section style="background: #ffffff; padding: 120px 54px">
+      <div class="urup-workshop-grid urup-split-2" style="max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 32px">
+        <div style="position: relative; aspect-ratio: 4/3; overflow: hidden">
+          <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover" />
+          <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28,22,18,0) 30%, rgba(28,22,18,0.7) 100%)" />
+          <div style="position: absolute; inset: 0; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; color: #f6f3ee">
+            <div style="display: flex; gap: 8px">
+              <span style="padding: 6px 12px; border-radius: 999px; background: rgba(245,237,224,0.18); backdrop-filter: blur(8px); font-family: var(--urup-body, Inter, system-ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase">Workshops</span>
+              <span style="padding: 6px 12px; border-radius: 999px; background: rgba(245,237,224,0.18); backdrop-filter: blur(8px); font-family: var(--urup-body, Inter, system-ui); font-size: 11px">Næste · 18. maj kl. 10</span>
+            </div>
+            <div>
+              <h3 style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-weight: 500; font-size: clamp(32px, 3.4vw, 52px); line-height: 1; letter-spacing: -0.015em; margin: 0; max-width: 380px">Lær at dreje en skål</h3>
+              <p style="margin-top: 18px; font-family: var(--urup-body, Inter, system-ui); font-size: 15px; line-height: 1.55; opacity: 0.9; max-width: 420px">Tre timer ved drejeskiven, kaffe, og din egen skål med hjem efter brænding.</p>
+              <div style="margin-top: 28px">
+                <NuxtLink to="/contact" style="height: 48px; padding: 0 24px; border-radius: 999px; background: #f6f3ee; color: var(--urup-text, #1c1a17); border: none; font-family: var(--urup-body, Inter, system-ui); font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">Book plads →</NuxtLink>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="position: relative; aspect-ratio: 4/3; overflow: hidden">
+          <img src="https://images.unsplash.com/photo-1546445317-29f4545e9d53?w=1200&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover" />
+          <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28,22,18,0) 30%, rgba(28,22,18,0.7) 100%)" />
+          <div style="position: absolute; inset: 0; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; color: #f6f3ee">
+            <div style="display: flex; gap: 8px">
+              <span style="padding: 6px 12px; border-radius: 999px; background: rgba(245,237,224,0.18); backdrop-filter: blur(8px); font-family: var(--urup-body, Inter, system-ui); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase">Gården</span>
+              <span style="padding: 6px 12px; border-radius: 999px; background: rgba(245,237,224,0.18); backdrop-filter: blur(8px); font-family: var(--urup-body, Inter, system-ui); font-size: 11px">Næste leverance · juni</span>
+            </div>
+            <div>
+              <h3 style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-style: italic; font-weight: 500; font-size: clamp(32px, 3.4vw, 52px); line-height: 1; letter-spacing: -0.015em; margin: 0; max-width: 380px">Kød fra egne dyr</h3>
+              <p style="margin-top: 18px; font-family: var(--urup-body, Inter, system-ui); font-size: 15px; line-height: 1.55; opacity: 0.9; max-width: 420px">Frilandsgrise og kødkvæg, opdrættet og solgt direkte fra gården.</p>
+              <div style="margin-top: 28px">
+                <NuxtLink to="/shop" style="height: 48px; padding: 0 24px; border-radius: 999px; background: #f6f3ee; color: var(--urup-text, #1c1a17); border: none; font-family: var(--urup-body, Inter, system-ui); font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center">Se sortiment →</NuxtLink>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
+
+<style scoped>
+@keyframes urupMarquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-33.333%); }
+}
+.urup-marquee-track {
+  animation: urupMarquee 40s linear infinite;
+}
+</style>
