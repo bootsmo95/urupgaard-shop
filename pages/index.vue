@@ -283,6 +283,44 @@ const products = computed(() => data.value?.products ?? [])
         </div>
       </div>
     </section>
+
+    <!-- VisitBlock -->
+    <section style="background: var(--urup-pageBg, #f6f3ee); padding: 120px 54px; border-top: 1px solid rgba(28,26,23,0.12)">
+      <div class="urup-split-2" style="max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px">
+        <div>
+          <div style="font-family: var(--urup-body, Inter, system-ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--urup-textMuted, #857c70); margin-bottom: 16px">Besøg gården</div>
+          <h2 style="font-family: var(--urup-display, 'Cormorant Garamond', serif); font-weight: 500; font-size: clamp(40px, 5vw, 80px); line-height: 0.98; letter-spacing: -0.015em; color: var(--urup-text, #1c1a17); margin: 0">
+            Kig forbi —<br />
+            <em style="font-style: italic">kaffen er klar.</em>
+          </h2>
+          <p style="margin-top: 32px; font-family: var(--urup-body, Inter, system-ui); font-size: 17px; line-height: 1.6; color: var(--urup-textMuted, #857c70); max-width: 460px">
+            Butikken ligger på selve gården. Kig ind i værkstedet, sig hej til dyrene, og tag det med hjem du falder for.
+          </p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 24px; padding-top: 60px">
+          <div style="display: grid; grid-template-columns: 120px 1fr; gap: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(28,26,23,0.12)">
+            <span style="font-family: var(--urup-body, Inter, system-ui); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--urup-textMuted, #857c70); padding-top: 4px">Adresse</span>
+            <span style="font-family: var(--urup-body, Inter, system-ui); font-size: 17px; line-height: 1.55; color: var(--urup-text, #1c1a17); white-space: pre-line">Urupvej 109\n5550 Langeskov</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 120px 1fr; gap: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(28,26,23,0.12)">
+            <span style="font-family: var(--urup-body, Inter, system-ui); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--urup-textMuted, #857c70); padding-top: 4px">Åbent</span>
+            <span style="font-family: var(--urup-body, Inter, system-ui); font-size: 17px; line-height: 1.55; color: var(--urup-text, #1c1a17); white-space: pre-line">Torsdag–lørdag · 10–16\nSøndag · 11–15</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 120px 1fr; gap: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(28,26,23,0.12)">
+            <span style="font-family: var(--urup-body, Inter, system-ui); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--urup-textMuted, #857c70); padding-top: 4px">Kontakt</span>
+            <span style="font-family: var(--urup-body, Inter, system-ui); font-size: 17px; line-height: 1.55; color: var(--urup-text, #1c1a17); white-space: pre-line">Linda Sørensen\n+45 24 67 12 89\nlinda@urupgaard-butik.dk</span>
+          </div>
+
+          <NuxtLink
+            to="/contact"
+            style="margin-top: 8px; height: 52px; padding: 0 28px; border-radius: 999px; background: var(--urup-text, #1c1a17); color: var(--urup-pageBg, #f6f3ee); border: none; font-family: var(--urup-body, Inter, system-ui); font-size: 14px; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; width: fit-content"
+          >
+            Find vej →
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
