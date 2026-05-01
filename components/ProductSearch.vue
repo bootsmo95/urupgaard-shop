@@ -78,7 +78,7 @@ watch(availableTags, (tags) => {
 
 <template>
   <section class="space-y-6">
-    <div class="card overflow-hidden p-6 sm:p-8">
+    <div class="card overflow-hidden p-6 sm:p-8" style="width: 100%">
       <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
         <div class="max-w-2xl space-y-3">
           <p class="editorial-kicker">Find din favorit</p>

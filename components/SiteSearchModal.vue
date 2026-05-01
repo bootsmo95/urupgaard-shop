@@ -34,7 +34,7 @@ onBeforeUnmount(() => {
         @click="emit('close')"
       />
 
-      <div style="position: relative; max-width: 1440px; margin: 0 auto; padding: 28px 54px 60px; height: 100%; overflow: auto">
+      <div style="position: relative; max-width: 1440px; margin: 0 auto; padding: 28px 54px 60px; height: 100%; overflow: auto; z-index: 1">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid rgba(28,26,23,0.12)">
           <div style="font-family: var(--urup-body, Inter, system-ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--urup-textMuted, #857c70)">Søg</div>
           <button
@@ -54,3 +54,16 @@ onBeforeUnmount(() => {
   </Teleport>
 </template>
 
+<style scoped>
+/* Ensure modal always sits above sticky header + mobile drawer */
+.z-50 {
+  z-index: 70;
+}
+
+@media (max-width: 640px) {
+  /* Match page padding on mobile */
+  div[style*="padding: 28px 54px 60px"] {
+    padding: 18px 20px 32px !important;
+  }
+}
+</style>
