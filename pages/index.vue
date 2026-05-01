@@ -249,7 +249,7 @@ const collections = computed(() => collectionsData.value?.collections ?? [])
     <!-- 50/50 image CTA -->
     <section style="background: #ffffff; padding: 120px 54px">
       <div class="urup-workshop-grid urup-split-2" style="max-width: 1440px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 32px">
-        <div style="position: relative; aspect-ratio: 4/3; overflow: hidden">
+        <div style="position: relative; aspect-ratio: 4/3; overflow: hidden; background: #ede8df">
           <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block" />
           <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28,22,18,0) 30%, rgba(28,22,18,0.7) 100%)" />
           <div style="position: absolute; inset: 0; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; color: #f6f3ee">
@@ -267,7 +267,7 @@ const collections = computed(() => collectionsData.value?.collections ?? [])
           </div>
         </div>
 
-        <div style="position: relative; aspect-ratio: 4/3; overflow: hidden">
+        <div style="position: relative; aspect-ratio: 4/3; overflow: hidden; background: #ede8df">
           <img src="https://images.unsplash.com/photo-1546445317-29f4545e9d53?w=1200&q=80" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block" />
           <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28,22,18,0) 30%, rgba(28,22,18,0.7) 100%)" />
           <div style="position: absolute; inset: 0; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; color: #f6f3ee">
