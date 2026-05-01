@@ -45,7 +45,7 @@ const mobileMenuOpen = ref(false)
         </NuxtLink>
 
         <nav
-          class="urup-header-nav"
+          class="urup-header-nav urup-desktop-only"
           style="
             display: flex;
             gap: 28px;
@@ -129,16 +129,50 @@ const mobileMenuOpen = ref(false)
       </div>
     </header>
 
-    <!-- Mobile menu panel -->
-    <div v-if="mobileMenuOpen" class="urup-mobile-only" style="border-bottom: 1px solid rgba(28,26,23,0.12); background: rgba(246,243,238,0.98); backdrop-filter: blur(12px)">
-      <div style="max-width: 1440px; margin: 0 auto; padding: 12px 54px 18px; display: grid; gap: 12px; font-family: var(--urup-body, Inter, system-ui)">
-        <NuxtLink to="/shop" style="text-decoration: none; color: inherit" @click="mobileMenuOpen = false">Butik</NuxtLink>
-        <NuxtLink to="/drops" style="text-decoration: none; color: inherit" @click="mobileMenuOpen = false">Drops</NuxtLink>
-        <NuxtLink to="/besoeg" style="text-decoration: none; color: inherit" @click="mobileMenuOpen = false">Besøg</NuxtLink>
-        <NuxtLink to="/about" style="text-decoration: none; color: inherit" @click="mobileMenuOpen = false">Om</NuxtLink>
-        <NuxtLink to="/contact" style="text-decoration: none; color: inherit" @click="mobileMenuOpen = false">Kontakt</NuxtLink>
+    <!-- Mobile menu (fullscreen, slide in from right) -->
+    <Teleport to="body">
+      <div v-if="mobileMenuOpen" class="urup-mobile-only" style="position: fixed; inset: 0; z-index: 60">
+        <button
+          type="button"
+          aria-label="Luk menu"
+          style="position: absolute; inset: 0; background: rgba(0,0,0,0.28)"
+          @click="mobileMenuOpen = false"
+        />
+
+        <div
+          class="urup-mobile-drawer"
+          style="
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: 100vw;
+            background: rgba(246,243,238,0.98);
+            backdrop-filter: blur(14px);
+            transform: translateX(0);
+          "
+        >
+          <div style="padding: 24px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(28,26,23,0.12)">
+            <div style="font-family: var(--urup-body, Inter, system-ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--urup-textMuted, #857c70)">Menu</div>
+            <button
+              type="button"
+              style="height: 40px; padding: 0 16px; border-radius: 999px; border: 1px solid rgba(28,26,23,0.18); background: transparent; color: var(--urup-text, #1c1a17); font-family: var(--urup-body, Inter, system-ui); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer"
+              @click="mobileMenuOpen = false"
+            >
+              Luk
+            </button>
+          </div>
+
+          <nav style="padding: 28px 20px; display: grid; gap: 18px; font-family: var(--urup-body, Inter, system-ui)">
+            <NuxtLink to="/shop" style="text-decoration: none; color: inherit; font-size: 22px" @click="mobileMenuOpen = false">Butik</NuxtLink>
+            <NuxtLink to="/drops" style="text-decoration: none; color: inherit; font-size: 22px" @click="mobileMenuOpen = false">Drops</NuxtLink>
+            <NuxtLink to="/besoeg" style="text-decoration: none; color: inherit; font-size: 22px" @click="mobileMenuOpen = false">Besøg</NuxtLink>
+            <NuxtLink to="/about" style="text-decoration: none; color: inherit; font-size: 22px" @click="mobileMenuOpen = false">Om</NuxtLink>
+            <NuxtLink to="/contact" style="text-decoration: none; color: inherit; font-size: 22px" @click="mobileMenuOpen = false">Kontakt</NuxtLink>
+          </nav>
+        </div>
       </div>
-    </div>
+    </Teleport>
 
     <main class="flex-1">
       <slot />
@@ -160,6 +194,19 @@ const mobileMenuOpen = ref(false)
 @media (max-width: 640px) {
   .urup-desktop-only {
     display: none !important;
+  }
+
+  .urup-mobile-drawer {
+    animation: urupDrawerIn 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+}
+
+@keyframes urupDrawerIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
   }
 }
 </style>
