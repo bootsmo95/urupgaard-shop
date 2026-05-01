@@ -34,7 +34,7 @@ onBeforeUnmount(() => {
         @click="emit('close')"
       />
 
-      <div style="position: relative; max-width: 1440px; margin: 0 auto; padding: 28px 54px 60px; height: 100%; overflow: auto; z-index: 1">
+      <div style="position: relative; max-width: 960px; margin: 0 auto; padding: 28px 54px 60px; height: 100%; overflow: auto; z-index: 1">
         <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid rgba(28,26,23,0.12)">
           <div style="font-family: var(--urup-body, Inter, system-ui); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--urup-textMuted, #857c70)">Søg</div>
           <button
@@ -47,7 +47,7 @@ onBeforeUnmount(() => {
         </div>
 
         <div style="padding-top: 28px">
-          <ProductSearch />
+          <ProductSearch @close="emit('close')" />
         </div>
       </div>
     </div>

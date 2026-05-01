@@ -152,6 +152,7 @@ watch(availableTags, (tags) => {
         :key="product.id"
         :to="product.collectionHandle ? `/shop/${product.collectionHandle}/${product.handle}` : `/shop/keramik/${product.handle}`"
         class="group product-card block"
+        @click="$emit('close')"
       >
         <div class="overflow-hidden">
           <div class="image-shell aspect-[4/5]">
