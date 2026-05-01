@@ -55,7 +55,8 @@ const searchOpen = ref(false)
         >
           <NuxtLink to="/shop" style="color: inherit; text-decoration: none; letter-spacing: 0.01em; border-bottom: 1px solid transparent; padding-bottom: 2px">Butik</NuxtLink>
           <NuxtLink to="/drops" style="color: inherit; text-decoration: none; letter-spacing: 0.01em; border-bottom: 1px solid transparent; padding-bottom: 2px">Drops</NuxtLink>
-          <NuxtLink to="/contact" style="color: inherit; text-decoration: none; letter-spacing: 0.01em; border-bottom: 1px solid transparent; padding-bottom: 2px">Besøg</NuxtLink>
+          <NuxtLink to="/besoeg" style="color: inherit; text-decoration: none; letter-spacing: 0.01em; border-bottom: 1px solid transparent; padding-bottom: 2px">Besøg</NuxtLink>
+          <NuxtLink to="/about" style="color: inherit; text-decoration: none; letter-spacing: 0.01em; border-bottom: 1px solid transparent; padding-bottom: 2px">Om</NuxtLink>
         </nav>
 
         <div
