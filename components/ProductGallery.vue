@@ -147,14 +147,14 @@ onBeforeUnmount(() => {
 <template>
   <div v-if="activeImage" class="flex flex-col gap-4">
     <div
-      class="card group relative overflow-hidden"
+      class="group relative overflow-hidden"
       @touchstart.passive="onTouchStart"
       @touchmove.passive="onTouchMove"
       @touchend="onTouchEnd"
     >
       <button
         type="button"
-        class="image-shell aspect-[4/5] w-full overflow-hidden bg-stone-100 text-left"
+        class="aspect-[4/5] w-full overflow-hidden bg-[#ede8df] text-left"
         :aria-label="`Åbn billede ${activeIndex + 1} i stor visning`"
         @click="openLightbox()"
       >
@@ -192,13 +192,13 @@ onBeforeUnmount(() => {
         v-for="(image, index) in normalizedImages"
         :key="`${image.url}-${index}`"
         type="button"
-        class="soft-panel overflow-hidden rounded-2xl border transition focus:outline-none focus:ring-2 focus:ring-stone-400"
+        class="overflow-hidden border transition focus:outline-none focus:ring-2 focus:ring-stone-400"
         :class="index === activeIndex ? 'border-stone-900 shadow-sm' : 'border-transparent hover:border-stone-300'"
         :aria-label="`Vis billede ${index + 1}`"
         :aria-pressed="index === activeIndex"
         @click="setActive(index)"
       >
-        <div class="aspect-square overflow-hidden bg-stone-100">
+        <div class="aspect-square overflow-hidden bg-[#ede8df]">
           <img :src="image.url" :alt="image.alt" class="h-full w-full object-cover" />
         </div>
       </button>
