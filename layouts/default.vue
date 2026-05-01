@@ -120,10 +120,17 @@ const mobileMenuOpen = ref(false)
             to="/cart"
             class="urup-mobile-only"
             aria-label="Kurv"
-            style="height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid rgba(28,26,23,0.18); color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 8px"
+            style="width: 40px; height: 40px; border-radius: 999px; border: 1px solid rgba(28,26,23,0.18); color: inherit; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; position: relative"
           >
-            <span aria-hidden="true">🛒</span>
-            <SiteHeaderCart />
+            <span aria-hidden="true" style="font-size: 16px; line-height: 1">🛍</span>
+            <span
+              class="urup-cart-badge"
+              style="position: absolute; top: -6px; right: -6px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--urup-text, #1c1a17); color: var(--urup-pageBg, #f6f3ee); font-family: var(--urup-body, Inter, system-ui); font-size: 11px; display: inline-flex; align-items: center; justify-content: center"
+            >
+              <ClientOnly>
+                <CartCount />
+              </ClientOnly>
+            </span>
           </NuxtLink>
         </div>
       </div>
